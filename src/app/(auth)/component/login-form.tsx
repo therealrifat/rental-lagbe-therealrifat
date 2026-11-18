@@ -60,11 +60,11 @@ const LoginForm = () => {
       router.push("/");
     }
 
-    if (data) {
-      await authClient.getSession();
+    // if (data) {
+    //   await authClient.getSession();
 
-      router.replace("/");
-    }
+    //   router.replace("/");
+    // }
   };
 
   return (

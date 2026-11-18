@@ -1,8 +1,14 @@
+
+
+import { getUserSessionServer } from "@/lib/core/session-server";
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "../ui/button";
+import LogOut from "@/app/(auth)/component/logout";
 
-const Navbar = () => {
-  const isLogin = false;
+const Navbar =async () => {
+  const isLogin =await getUserSessionServer()
+
   const links = (
     <>
       <Link href={"/"}>Home</Link>
@@ -10,15 +16,17 @@ const Navbar = () => {
       <Link href={"/"}>About Us</Link>
     </>)
     const authLinks = <>
-    {isLogin ? (
+    {isLogin?.user ?(
         <>
-          <Link href={"/"}>Dashboard </Link>
-          <Link href={"/"}>Logout </Link>
+          <Link href={"/"} className="border rounded-2xl px-5">Dashboard </Link>
+          <LogOut/>
         </>
       ) : (
+        <>
         <Link className="  border-2 border-[#2563EB] px-5 py-1 rounded-lg text-md" href={"/login"}>Login </Link>
-      )}
       <Link className=" border-2 bg-[#2563EB] px-4 py-1 rounded-lg text-md" href={"/register"}>Register</Link>
+        </>
+      )}
     </>
 
 

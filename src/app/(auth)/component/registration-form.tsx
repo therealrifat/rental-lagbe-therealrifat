@@ -16,8 +16,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
+import { signUp } from "@/lib/auth-client";
 
-import { authClient } from "@/lib/auth-client";
+
 import { Check, Mail, X } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -56,7 +57,7 @@ const RegistrationForm = () => {
       image: string;
     };
 
-    const { data, error } = await authClient.signUp.email(userData);
+    const { data, error } = await signUp.email(userData);
 if (error) {
      toast.add({
         type: "warning",
@@ -68,14 +69,15 @@ if (error) {
     if (data?.token) {
 
       toast.add({
-        title: "Event created",
-        description: "Sunday, December 3 at 9:00 AM",
+        type: 'success',
+
+        description: `Account Registration Sucessfull`,
       });
 
       setIsLoading(false)
 
 
-      redirect("/dashboard")
+      redirect("/")
       
 
     }

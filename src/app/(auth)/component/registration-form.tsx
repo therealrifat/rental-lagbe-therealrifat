@@ -14,15 +14,18 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
 
 import { authClient } from "@/lib/auth-client";
 import { Check, Mail, X } from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { useState } from "react";
 
 const RegistrationForm = () => {
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const requirements = [
     {
       label: "At least 8 characters",
@@ -42,6 +45,8 @@ const RegistrationForm = () => {
 
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true)
+
 
     const formData = new FormData(e.currentTarget);
     const userData = Object.fromEntries(formData.entries()) as {
@@ -52,19 +57,30 @@ const RegistrationForm = () => {
     };
 
     const { data, error } = await authClient.signUp.email(userData);
-
+if (error) {
+     toast.add({
+        type: "warning",
+        description: `${error.message}`,
+      });
+      setIsLoading(false)
+      return;
+    }
     if (data?.token) {
-      console.log("test");
+
       toast.add({
         title: "Event created",
         description: "Sunday, December 3 at 9:00 AM",
       });
-      console.log("test2");
+
+      setIsLoading(false)
+
+
+      redirect("/dashboard")
+      
+
     }
 
-    if (error) {
-      console.log(error);
-    }
+    
   };
 
   return (
@@ -145,12 +161,16 @@ const RegistrationForm = () => {
                 <Field>
                   <Button
                     disabled={!isPasswordValid}
+
                     type="submit"
                     className={
                       "bg-orange-400 hover:bg-orange-600 cursor-pointer"
                     }
                   >
-                    Register
+                    {isLoading ? (<>
+                    <Spinner className="size-4" /> Register
+                    </>):("Register")}
+                    
                   </Button>
                   <Button variant="outline" type="submit">
                     Register with Google

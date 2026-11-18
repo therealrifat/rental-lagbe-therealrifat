@@ -18,11 +18,11 @@ import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
 import { signUp } from "@/lib/auth-client";
 
-
 import { Check, Mail, X } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useState } from "react";
+import LoginWithGoogle from "./login-google";
 
 const RegistrationForm = () => {
   const [password, setPassword] = useState("");
@@ -46,8 +46,7 @@ const RegistrationForm = () => {
 
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true)
-
+    setIsLoading(true);
 
     const formData = new FormData(e.currentTarget);
     const userData = Object.fromEntries(formData.entries()) as {
@@ -58,31 +57,25 @@ const RegistrationForm = () => {
     };
 
     const { data, error } = await signUp.email(userData);
-if (error) {
-     toast.add({
+    if (error) {
+      toast.add({
         type: "warning",
         description: `${error.message}`,
       });
-      setIsLoading(false)
+      setIsLoading(false);
       return;
     }
     if (data?.token) {
-
       toast.add({
-        type: 'success',
+        type: "success",
 
         description: `Account Registration Sucessfull`,
       });
 
-      setIsLoading(false)
+      setIsLoading(false);
 
-
-      redirect("/")
-      
-
+      redirect("/");
     }
-
-    
   };
 
   return (
@@ -163,20 +156,20 @@ if (error) {
                 <Field>
                   <Button
                     disabled={!isPasswordValid}
-
                     type="submit"
                     className={
                       "bg-orange-400 hover:bg-orange-600 cursor-pointer"
                     }
                   >
-                    {isLoading ? (<>
-                    <Spinner className="size-4" /> Register
-                    </>):("Register")}
-                    
+                    {isLoading ? (
+                      <>
+                        <Spinner className="size-4" /> Register
+                      </>
+                    ) : (
+                      "Register"
+                    )}
                   </Button>
-                  <Button variant="outline" type="submit">
-                    Register with Google
-                  </Button>
+                 <LoginWithGoogle/>
                   <FieldDescription className="px-6 text-center">
                     Already have an account? <Link href="/login">Login</Link>
                   </FieldDescription>

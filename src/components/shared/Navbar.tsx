@@ -1,58 +1,36 @@
-
-
-import { getUserSessionServer } from "@/lib/core/session-server";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "../ui/button";
-import LogOut from "@/app/(auth)/component/logout";
 
-const Navbar =async () => {
-  const isLogin =await getUserSessionServer()
+import UserProfile from "./user-profile";
 
+const Navbar = async () => {
   const links = (
     <>
       <Link href={"/"}>Home</Link>
       <Link href={"/"}>All Equipment</Link>
       <Link href={"/"}>About Us</Link>
-    </>)
-    const authLinks = <>
-    {isLogin?.user ?(
-        <>
-          <Link href={"/"} className="border rounded-2xl px-5">Dashboard </Link>
-          <LogOut/>
-        </>
-      ) : (
-        <>
-        <Link className="  border-2 border-[#2563EB] px-5 py-1 rounded-lg text-md" href={"/login"}>Login </Link>
-      <Link className=" border-2 bg-[#2563EB] px-4 py-1 rounded-lg text-md" href={"/register"}>Register</Link>
-        </>
-      )}
     </>
-
+  );
 
   return (
     <div className="bg-background z-50 top-0 sticky">
       <div className="max-w-7xl mx-auto py-2.5 max-h-30 flex  justify-between items-center">
         <div className="ml-0 cursor-pointer">
           <Link href={"/"}>
-          <Image
-            src={"/image/logo.png"}
-            width={150}
-            height={100}
-            alt="rentalLagbe logo"
-          />
+            <Image
+              src={"/image/logo.png"}
+              width={150}
+              height={100}
+              alt="rentalLagbe logo"
+            />
           </Link>
         </div>
 
-          <div className="flex gap-5 items-center">{links}
-            
-          </div>
+        <div className="flex gap-5 items-center">{links}</div>
 
-        
-          <div className="flex gap-5 items-center">{authLinks}
-            
-          </div>
-
+        <div className="flex gap-5 items-center">
+          <UserProfile />
+        </div>
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { Upload } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
-export default function ImageUpload() {
+export default function ImageUpload({image}:{image:string}) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState(false);
@@ -51,7 +51,7 @@ export default function ImageUpload() {
         name="image"
         type="url"
         placeholder="https://example.com/image"
-        value={imageUrl}
+        defaultValue={image??imageUrl}
         onChange={(e) => setImageUrl(e.target.value)}
         required
       />

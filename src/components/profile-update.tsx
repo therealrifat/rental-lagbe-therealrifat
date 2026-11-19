@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,40 +16,36 @@ import Image from "next/image";
 import ImageUpload from "./profile/image-upload";
 import { authClient } from "@/lib/auth-client";
 import { User } from "@/types/User";
+import { UpdateProfielInfo } from "@/lib/actions/users";
+import { useState } from "react";
+import { Spinner } from "./ui/spinner";
+import { useRouter } from "next/navigation";
 
+const ProfileUpdate = () => {
+  const router = useRouter()
+  const [isLoading, setLoding] = useState(false);
+  const { data: session } = authClient.useSession();
+  const userInfo = session?.user as User | undefined;
+  const role: UserRole =
+    (userInfo as { role?: UserRole } | undefined)?.role || "customer";
 
-const ProfileUpdate =  () => {
- const { data: session } = authClient.useSession()
-  const userInfo = session?.user as User | undefined
-  const role: UserRole = (userInfo as { role?: UserRole } | undefined)?.role || "customer";
-  console.log(userInfo?.id)
- 
+  const handleProfileInfo = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoding(true);
 
+    const formData = new FormData(e.currentTarget);
+    const userData = Object.fromEntries(formData.entries());
 
+    const result = await UpdateProfielInfo(userInfo?.id as string, userData);
+    console.log(result);
+    if (result.modifiedCount > 0) {
 
-  const handleProfileInfo = async(e: React.FormEvent<HTMLFormElement>)=>{
-    e.preventDefault()
-    
-    const formData = new FormData(e.currentTarget)
-    const userData = Object.fromEntries(formData.entries())
+      setLoding(false)
+      router.refresh()
 
-    console.log(userData)
+    }
 
-
-    const respose = await fetch(`http://localhost:8000/users/${userInfo?.id}`,{
-      method: "PATCH",
-      headers:{"Content-Type" :"application/json"},
-      body: JSON.stringify(userData)
-    })
-
-    const result = respose.json()
-
-    console.log(result)
-    
-    
-
-      
-  }
+  };
   return (
     <Card className="bg-slate-100 max-w-2xl flex mx-auto">
       <CardHeader>
@@ -81,7 +77,14 @@ const ProfileUpdate =  () => {
           <FieldGroup className="grid grid-cols-2">
             <Field>
               <FieldLabel htmlFor="name">Full Name</FieldLabel>
-              <Input id="name" type="text" placeholder="John Doe" name="name" value={userInfo?.name} required />
+              <Input
+                id="name"
+                type="text"
+                placeholder="John Doe"
+                name="name"
+                defaultValue={userInfo?.name ?? ""}
+                required
+              />
             </Field>
 
             <Field>
@@ -91,14 +94,14 @@ const ProfileUpdate =  () => {
                 type="number"
                 name="phone"
                 placeholder="8801723456780"
-                value={userInfo?.phone}
+                defaultValue={userInfo?.phone ?? ""}
                 required
               />
             </Field>
-            
+
             <Field>
               <FieldLabel htmlFor="image">Image URL</FieldLabel>
-              <ImageUpload />
+              <ImageUpload image={userInfo?.image ?? ""} />
             </Field>
             <Field>
               <FieldLabel htmlFor="address">Delivary Address</FieldLabel>
@@ -107,7 +110,7 @@ const ProfileUpdate =  () => {
                 type="text"
                 placeholder="Bagehat Morrelgang Fulhata Panchakarn"
                 name="deliveryAddress"
-                value={userInfo?.deliveryAddress}
+                defaultValue={userInfo?.deliveryAddress ?? ""}
                 required
               />
             </Field>
@@ -115,12 +118,19 @@ const ProfileUpdate =  () => {
           <FieldGroup className="mt-10">
             <Field></Field>
             <Field>
-              <Button type="submit">Save and Change</Button>
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Spinner /> Save and Change
+                  </>
+                ) : (
+                  "Save and Change"
+                )}
+              </Button>
             </Field>
           </FieldGroup>
         </form>
       </CardContent>
-
     </Card>
   );
 };

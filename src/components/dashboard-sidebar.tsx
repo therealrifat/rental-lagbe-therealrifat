@@ -12,29 +12,29 @@ import {
 import { useSession } from "@/lib/auth-client";
 import { MenuItem } from "@/types/navigations";
 import { UserRole } from "@/types/UserRole";
-import { BookHeart, CalendarCheck, PackageCheck, Plus, UserCog, Users2Icon,  Wrench } from "lucide-react";
+import { BookHeart, Boxes, CalendarCheck, PackageCheck, Plus, UserCog, Users2Icon,  Wrench } from "lucide-react";
 import Link from "next/link";
 
 
 const menuItemsByRole: Record<UserRole, MenuItem[]> = {
   customer: [
+    { name: "Profile", url: "/dashboard/profile", icon: UserCog },
     { name: "My Rentals", url: "/dashboard/myrental", icon: CalendarCheck },
     { name: "Favorites", url: "/dashboard/favorites", icon: BookHeart },
-    { name: "Profile", url: "/dashboard/profile", icon: UserCog },
 
   ],
   owner: [
-    { name: "Add Equipment", url: "/dashboard/recruiter", icon: Plus },
-    { name: "My Equipment", url: "/dashboard/recruiter/company", icon: Wrench },
-    { name: "My Equipment Rental", url: "/dashboard/recruiter/company", icon: Wrench },
-    { name: "My Profile", url: "/dashboard/recruiter/company", icon: UserCog },
+    { name: "My Profile", url: "/dashboard/profile", icon: UserCog },
+    { name: "Add Equipment", url: "/dashboard/owner", icon: Plus },
+    { name: "My Equipment", url: "/dashboard/owner/equipment", icon: Wrench },
+    { name: "My Equipment Rental", url: "/dashboard/owner/equipment-rental", icon: Boxes },
 
   ],
   admin: [
-    { name: "All Users", url: "/dashboard/admin", icon: Users2Icon },
-    { name: "All Equipments", url: "/dashboard/admin/users", icon: PackageCheck },
-    { name: "All Rentals", url: "/dashboard/admin/companies", icon: CalendarCheck },
-    { name: "My Profile", url: "/dashboard/admin/jobs", icon: UserCog },
+    { name: "My Profile", url: "/dashboard/profile", icon: UserCog },
+    { name: "All Users", url: "/dashboard/users", icon: Users2Icon },
+    { name: "All Equipments", url: "/dashboard/admin/all-equipments", icon: PackageCheck },
+    { name: "All Rentals", url: "/dashboard/admin/all-rental", icon: CalendarCheck },
 
   ],
 }

@@ -1,8 +1,14 @@
 import { Button } from "@/components/ui/button";
+import { authClient } from "@/lib/auth-client";
 
 const LoginWithGoogle = () => {
-  const handleGoogleLogin = () => {
-    console.log('Google login')
+  const handleGoogleLogin = async() => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+    })
+    
+    console.log(data)
+
   };
 
   return (

@@ -1,15 +1,14 @@
 "use client";
 import LogOut from "@/app/(auth)/component/logout";
 import { authClient } from "@/lib/auth-client";
-
 import Link from "next/link";
-import React from "react";
 import { Skeleton } from "../ui/skeleton";
+
 
 const UserProfile = () => {
   const { data: session, isPending } = authClient.useSession();
   console.log("usersesson", session, isPending);
-
+const role = (session?.user as { role?: string } | undefined)?.role || "customer";
   return (
     <>
       {isPending ? (
@@ -19,8 +18,8 @@ const UserProfile = () => {
         </div>
       ) : session?.user ? (
         <div className="flex items-center gap-2.5">
-          <Link href={"/"} className="border rounded-lg px-5">
-            Dashboard{" "}
+          <Link href={`/dashboard/${role}`} className="border rounded-lg px-5">
+            Dashboard
           </Link>
           <LogOut />
         </div>

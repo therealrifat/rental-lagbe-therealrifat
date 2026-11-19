@@ -118,7 +118,7 @@ const LoginForm = () => {
                     )}
                   </Button>
                   
-                    <LoginWithGoogle/>
+                    <LoginWithGoogle mode={"Login"}/>
                   <FieldDescription className="px-6 text-center">
                     Already have an account?{" "}
                     <Link href="/register">Register</Link>

@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
+import { FcGoogle } from "react-icons/fc";
 
-const LoginWithGoogle = () => {
+const LoginWithGoogle = (mode:{mode:string}) => {
   const handleGoogleLogin = async() => {
     const data = await authClient.signIn.social({
       provider: "google",
@@ -13,8 +14,8 @@ const LoginWithGoogle = () => {
 
   return (
     <div>
-      <Button variant="outline" onClick={handleGoogleLogin}>
-        Register with Google
+      <Button className={"cursor-pointer"} variant="outline" onClick={handleGoogleLogin}>
+        <FcGoogle /> {mode.mode} with Google
       </Button>
     </div>
   );

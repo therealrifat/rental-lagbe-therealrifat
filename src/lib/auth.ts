@@ -10,10 +10,10 @@ export const auth = betterAuth({
     enabled: true,
   },
   account: {
-		accountLinking: {
-			trustedProviders: ["google"] // add your provider here
-		}
-	},
+    accountLinking: {
+      trustedProviders: ["google"], // add your provider here
+    },
+  },
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -26,6 +26,14 @@ export const auth = betterAuth({
         type: ["customer", "owner", "admin"] as const,
         input: false,
         defaultValue: "customer",
+      },
+      phone: {
+        type: "string",
+        required: false,
+      },
+      deliveryAddress: {
+        type: "string",
+        required: false,
       },
     },
   },

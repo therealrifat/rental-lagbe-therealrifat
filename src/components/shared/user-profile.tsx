@@ -7,7 +7,8 @@ import { Skeleton } from "../ui/skeleton";
 
 const UserProfile = () => {
   const { data: session, isPending } = authClient.useSession();
-  console.log("usersesson", session, isPending);
+
+   
 const role = (session?.user as { role?: string } | undefined)?.role || "customer";
   return (
     <>

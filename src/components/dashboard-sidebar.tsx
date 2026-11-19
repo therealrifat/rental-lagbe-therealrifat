@@ -49,7 +49,7 @@ const DashboardSidebar = () => {
 
 
   return (
-     <Sidebar>
+     <Sidebar className="top-16 h-[calc(100svh-4rem)]">
       <SidebarHeader />
       <SidebarContent>
         <SidebarGroup>

@@ -11,12 +11,17 @@ export const metadata: Metadata = {
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <SidebarProvider>
-      <Navbar />
-      <DashboardSidebar />
-      <main>
-        <SidebarTrigger />
-        {children}
-      </main>
+      <div className="w-full min-h-screen ">
+        {/* <Navbar /> */}
+        <div className="flex">
+          <DashboardSidebar />
+
+          <main className="flex-1 p-4">
+            <SidebarTrigger />
+            {children}
+          </main>
+        </div>
+      </div>
     </SidebarProvider>
   );
 };

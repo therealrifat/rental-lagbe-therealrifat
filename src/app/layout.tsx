@@ -22,7 +22,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.className}  h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-gray-100">
-        {/* <Navbar/> */}
+        <Navbar/>
         {children}
         
         <Toaster />

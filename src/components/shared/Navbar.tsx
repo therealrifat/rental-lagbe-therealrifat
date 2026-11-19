@@ -14,7 +14,7 @@ const Navbar = async () => {
 
   return (
     <div className="bg-background z-50 top-0 sticky">
-      <div className="max-w-7xl mx-auto py-2.5 max-h-30 flex  justify-between items-center">
+      <div className="max-w-7xl mx-auto py-2.5 h-16 flex  justify-between items-center">
         <div className="ml-0 cursor-pointer">
           <Link href={"/"}>
             <Image

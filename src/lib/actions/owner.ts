@@ -15,3 +15,8 @@ export const addedEquipment = async ( data:Equipment ) => {
 
 
 
+export const deleteMyEquipment = async(id: string)=>{
+  const res = await fetch(`${BASE_URL}/owner/equipment/${id}`,{method: "DELETE"})
+  return res.json()
+}
+

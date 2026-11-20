@@ -1,34 +1,25 @@
 "use client";
 
-import { Eye, Pencil, Trash2 } from "lucide-react";
+import { Eye, Pencil } from "lucide-react";
 
 import { buttonVariants } from "@/components/ui/button";
 import type { EquipmentRecord } from "@/types/equipment";
 import Link from "next/link";
+
+import DeleteEquipment from "./delete-equipment";
 
 type EquipmentActionsProps = {
   equipment: EquipmentRecord;
 };
 
 const EquipmentActions = ({ equipment }: EquipmentActionsProps) => {
+
+
   const handleUpdate = () => {
     // TODO: add update logic here
-
-  
-
-  
   };
 
-  const handleDelete = () => {
-    // TODO: add delete logic here
 
-    console.log("delete")
-
-  };
-
-  const handleViewDetails = () => {
-    // TODO: add view details logic here
-  };
 
   return (
     <div className="flex items-center gap-1" data-equipment-id={equipment._id}>
@@ -41,23 +32,19 @@ const EquipmentActions = ({ equipment }: EquipmentActionsProps) => {
       >
         <Pencil />
       </button>
-      <button
-        type="button"
-        title={`Delete ${equipment.equipmentName}`}
-        aria-label={`Delete ${equipment.equipmentName}`}
-        className={buttonVariants({ variant: "destructive", size: "icon-sm" })}
-        onClick={handleDelete}
-      >
-        <Trash2 />
-      </button>
-
-       
-        
-    
-       
-    <Link href={`/equipment/${equipment._id}`}  className={buttonVariants({ variant: "ghost", size: "icon-sm" })}> <Eye /></Link>
 
       
+     <DeleteEquipment equipment={equipment} />
+
+
+
+      <Link
+        href={`/equipment/${equipment._id}`}
+        className={buttonVariants({ variant: "ghost", size: "icon-sm" })}
+      >
+        {" "}
+        <Eye />
+      </Link>
     </div>
   );
 };

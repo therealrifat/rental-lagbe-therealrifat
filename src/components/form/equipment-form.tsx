@@ -23,9 +23,10 @@ import { User } from "@/types/User";
 import { authClient } from "@/lib/auth-client";
 import { addedEquipment } from "@/lib/actions/owner";
 import { Equipment } from "@/types/equipment";
+import { Spinner } from "../ui/spinner";
+import { toast } from "../ui/toast";
 
 const items = [
- 
   { label: "Construction Equipment", value: "construction-equipment" },
   { label: "Photography Equipment", value: "photography-equipment" },
   { label: "Vehicles & Transportation", value: "vehicles-transportation" },
@@ -50,18 +51,19 @@ const conditionItems = [
 ];
 
 const EquipmentForm = () => {
-  const [category, setCategory] = useState<string | null>("construction-equipment");
+  const [isLoading, setLoading] = useState(false);
+  const [category, setCategory] = useState<string | null>(
+    "construction-equipment",
+  );
   const [rental, setRental] = useState<string | null>("daily");
   const [condition, setCondition] = useState<string | null>("brand-new");
- 
 
   const { data: session } = authClient.useSession();
-    const userInfo = session?.user as User | undefined;
+  const userInfo = session?.user as User | undefined;
 
-
-  const handleEquipmentForm = async(e: React.FormEvent<HTMLFormElement>) => {
+  const handleEquipmentForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setLoading(true);
 
     const formData = new FormData(e.currentTarget);
     const userData = Object.fromEntries(formData.entries());
@@ -69,19 +71,30 @@ const EquipmentForm = () => {
     const equipment = {
       ...userData,
       category: category,
-      rentaltype: rental??"",
-      equipmentCondition:condition,
+      rentaltype: rental ?? "",
+      equipmentCondition: condition,
       ownerId: userInfo?.id,
-      status: "Pending" 
-
+      status: "Pending",
     } as Equipment;
 
+    const result = await addedEquipment(equipment);
+    if (!result.insertedId) {
+      toast.add({
+        description: "Somthing Went Wrong",
+      });
+      console.log(result);
+      setLoading(false);
+      return;
+    }
 
-    const result = await addedEquipment(equipment)
-console.log(result)
-
-
-    
+    if (result.insertedId) {
+      toast.add({
+        description: "Add Equipment Sucessfull",
+      });
+      console.log(result);
+      setLoading(false);
+      return;
+    }
   };
 
   return (
@@ -209,7 +222,6 @@ console.log(result)
           <Select
             items={conditionItems}
             value={condition}
-      
             onValueChange={(value) => setCondition(value)}
           >
             <SelectTrigger className="w-full max-w-48">
@@ -259,7 +271,15 @@ console.log(result)
         </Field>
 
         <Field>
-          <Button type="submit">Add Equipment</Button>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <Spinner /> Add Equipment
+              </>
+            ) : (
+              "Add Equipment"
+            )}
+          </Button>
         </Field>
       </FieldGroup>
     </form>

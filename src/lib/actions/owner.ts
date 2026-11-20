@@ -12,3 +12,6 @@ export const addedEquipment = async ( data:Equipment ) => {
 
   return res.json()
 };
+
+
+

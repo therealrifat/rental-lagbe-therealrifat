@@ -1,10 +1,19 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
   Field,
   FieldDescription,
-  FieldGroup,
   FieldLabel,
+  FieldLegend,
+  FieldSet,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 
@@ -98,190 +107,214 @@ const EquipmentForm = () => {
   };
 
   return (
-    <form onSubmit={handleEquipmentForm}>
-      <FieldGroup>
-        <div className="flex flex-col items-center gap-1 text-center">
-          <h1 className="text-2xl font-bold">List New Machinery or Gear</h1>
-          <p className="text-sm text-balance text-muted-foreground">
-            Provide accurate specs, images, and rental rates to get verified and
-            rented faster.
-          </p>
-        </div>
-        <Field>
-          <FieldLabel htmlFor="name">Equipment Name *</FieldLabel>
-          <Input
-            id="name"
-            type="text"
-            placeholder="John Doe"
-            name="equipmentName"
-            required
-          />
-        </Field>
-        <Field>
-          <FieldLabel>Categroy</FieldLabel>
-          <Select
-            items={items}
-            value={category}
-            onValueChange={(value) => setCategory(value)}
+    <form onSubmit={handleEquipmentForm} className="w-full">
+      <Card className="w-full">
+        <CardHeader className="border-b pb-4">
+          <CardTitle className="text-lg">Equipment details</CardTitle>
+          <CardDescription>
+            Provide accurate specs and rental rates to get listed faster.
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent>
+          <FieldSet className="gap-4">
+            <FieldLegend variant="label" className="text-sm font-medium">
+              Basic information
+            </FieldLegend>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field>
+                <FieldLabel htmlFor="name">Equipment Name *</FieldLabel>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="e.g. Excavator"
+                  name="equipmentName"
+                  required
+                />
+              </Field>
+
+              <Field>
+                <FieldLabel>Category</FieldLabel>
+                <Select
+                  items={items}
+                  value={category}
+                  onValueChange={(value) => setCategory(value)}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Category</SelectLabel>
+                      {items.map((item) => (
+                        <SelectItem key={item.value} value={item.value}>
+                          {item.label}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </Field>
+
+              <Field>
+                <FieldLabel htmlFor="location">Location *</FieldLabel>
+                <Input
+                  id="location"
+                  type="text"
+                  placeholder="e.g. Dhaka"
+                  name="location"
+                  required
+                />
+              </Field>
+
+              <Field>
+                <FieldLabel htmlFor="brandName">Brand Name *</FieldLabel>
+                <Input
+                  id="brandName"
+                  type="text"
+                  placeholder="e.g. Caterpillar"
+                  name="brandName"
+                  required
+                />
+              </Field>
+            </div>
+          </FieldSet>
+
+          <FieldSet className="gap-4 mt-6">
+            <FieldLegend variant="label" className="text-sm font-medium">
+              Rental &amp; pricing
+            </FieldLegend>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field>
+                <FieldLabel htmlFor="price">Rental Price *</FieldLabel>
+                <Input
+                  id="price"
+                  type="number"
+                  placeholder="e.g. 500"
+                  name="price"
+                  required
+                />
+              </Field>
+
+              <Field>
+                <FieldLabel>Rental Type</FieldLabel>
+                <Select
+                  items={rentalType}
+                  value={rental}
+                  defaultValue={rental}
+                  onValueChange={(value) => setRental(value)}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Rental Type</SelectLabel>
+                      {rentalType.map((item) => (
+                        <SelectItem key={item.value} value={item.value}>
+                          {item.label}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </Field>
+
+              <Field>
+                <FieldLabel htmlFor="quantity">Available Quantity *</FieldLabel>
+                <Input
+                  id="quantity"
+                  type="text"
+                  placeholder="e.g. 2"
+                  name="quantity"
+                  required
+                />
+              </Field>
+
+              <Field>
+                <FieldLabel>Equipment Condition</FieldLabel>
+                <Select
+                  items={conditionItems}
+                  value={condition}
+                  onValueChange={(value) => setCondition(value)}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Equipment Condition</SelectLabel>
+                      {conditionItems.map((item) => (
+                        <SelectItem key={item.value} value={item.value}>
+                          {item.label}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </Field>
+
+              <Field className="sm:col-span-2">
+                <FieldLabel htmlFor="terms">
+                  Rental Terms and Conditions *
+                </FieldLabel>
+                <Input
+                  id="terms"
+                  type="text"
+                  placeholder="e.g. Minimum 3 days, deposit required"
+                  name="terms"
+                  required
+                />
+              </Field>
+            </div>
+          </FieldSet>
+
+          <FieldSet className="gap-4 mt-6">
+            <FieldLegend variant="label" className="text-sm font-medium">
+              Listing details
+            </FieldLegend>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field className="sm:col-span-2">
+                <FieldLabel htmlFor="textarea-message">Description</FieldLabel>
+                <FieldDescription>
+                  Describe the equipment, its specs, and anything renters should
+                  know.
+                </FieldDescription>
+                <Textarea
+                  id="textarea-message"
+                  name="description"
+                  placeholder="e.g. Well-maintained excavator, 2022 model, with operator..."
+                />
+              </Field>
+
+              <Field className="sm:col-span-2">
+                <FieldLabel htmlFor="image">Image *</FieldLabel>
+                <FieldDescription>
+                  Upload a clear photo of the equipment.
+                </FieldDescription>
+                <Input id="image" type="file" name="image" required />
+              </Field>
+            </div>
+          </FieldSet>
+        </CardContent>
+
+        <CardFooter className="justify-end">
+          <Button
+            type="submit"
+            size="lg"
+            className="w-full sm:w-auto"
+            disabled={isLoading}
           >
-            <SelectTrigger className="w-full max-w-48">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Category </SelectLabel>
-                {items.map((item) => (
-                  <SelectItem key={item.value} value={item.value}>
-                    {item.label}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </Field>
-
-        <Field>
-          <FieldLabel htmlFor="location">Location *</FieldLabel>
-          <Input
-            id="location"
-            type="text"
-            placeholder="John Doe"
-            name="location"
-            required
-          />
-        </Field>
-        <Field>
-          <FieldLabel htmlFor="brandName">Brand Name *</FieldLabel>
-          <Input
-            id="brandName"
-            type="text"
-            placeholder="100"
-            name="brandName"
-            required
-          />
-        </Field>
-
-        <Field>
-          <FieldLabel htmlFor="price">Rental Price *</FieldLabel>
-          <Input
-            id="price"
-            type="number"
-            placeholder="100"
-            name="price"
-            required
-          />
-        </Field>
-
-        <Field>
-          <FieldLabel>Rental Type</FieldLabel>
-          <Select
-            items={rentalType}
-            value={rental}
-            defaultValue={rental}
-            onValueChange={(value) => setRental(value)}
-          >
-            <SelectTrigger className="w-full max-w-48">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Rental Type</SelectLabel>
-                {rentalType.map((item) => (
-                  <SelectItem key={item.value} value={item.value}>
-                    {item.label}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </Field>
-
-        <Field>
-          <FieldLabel htmlFor="textarea-message">Description</FieldLabel>
-          <FieldDescription>Enter your message below.</FieldDescription>
-          <Textarea
-            id="textarea-message"
-            name="description"
-            placeholder="Type your message here."
-          />
-        </Field>
-
-        <Field>
-          <FieldLabel htmlFor="quantity">Available Quantity *</FieldLabel>
-          <Input
-            id="quantity"
-            type="text"
-            placeholder="100"
-            name="quantity"
-            required
-          />
-        </Field>
-
-        <Field>
-          <FieldLabel>Equipment Condition</FieldLabel>
-          <Select
-            items={conditionItems}
-            value={condition}
-            onValueChange={(value) => setCondition(value)}
-          >
-            <SelectTrigger className="w-full max-w-48">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Category </SelectLabel>
-                {conditionItems.map((item) => (
-                  <SelectItem key={item.value} value={item.value}>
-                    {item.label}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </Field>
-        <Field>
-          <FieldLabel htmlFor="terms">Rental Terms and Conditions *</FieldLabel>
-          <Input
-            id="terms"
-            type="text"
-            placeholder="100"
-            name="terms"
-            required
-          />
-        </Field>
-        <Field>
-          <FieldLabel htmlFor="modelName">Model *</FieldLabel>
-          <Input
-            id="modelName"
-            type="text"
-            placeholder="Model"
-            name="modelName"
-            required
-          />
-        </Field>
-        <Field>
-          <FieldLabel htmlFor="image">Image *</FieldLabel>
-          <Input
-            id="image"
-            type="file"
-            placeholder="100"
-            name="image"
-            required
-          />
-        </Field>
-
-        <Field>
-          <Button type="submit" disabled={isLoading}>
             {isLoading ? (
               <>
-                <Spinner /> Add Equipment
+                <Spinner /> Adding Equipment...
               </>
             ) : (
               "Add Equipment"
             )}
           </Button>
-        </Field>
-      </FieldGroup>
+        </CardFooter>
+      </Card>
     </form>
   );
 };

@@ -2,7 +2,6 @@ import React from "react";
 import { Trash2, Trash2Icon } from "lucide-react";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -67,7 +66,7 @@ const DeleteEquipment = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel variant="outline">Cancel</AlertDialogCancel>
-          <AlertDialogAction variant="destructive" onClick={handleDelete}>Delete</AlertDialogAction>
+          <AlertDialogCancel variant="destructive" onClick={handleDelete}>Delete</AlertDialogCancel>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

@@ -105,19 +105,6 @@ const DetailRow = ({
   </div>
 );
 
-// type OwnerInfo = EquipmentRecord & {
-//   owner?: {
-//     name?: string;
-//     email?: string;
-//     phone?: string;
-//     image?: string;
-//   };
-//   ownerName?: string;
-//   ownerEmail?: string;
-//   ownerAddress?: string;
-//   ownerPhone?: string;
-//   ownerImage?: string;
-// };
 
 const EquipmentDetails = async({ item }: { item: EquipmentRecord }) => {
   const ownerData = await getUserInfo(item.ownerId)
@@ -135,7 +122,7 @@ const EquipmentDetails = async({ item }: { item: EquipmentRecord }) => {
   const ownerInitials = ownerName
     ? ownerName
         .split(" ")
-        .map((part) => part[0])
+        .map((part:string) => part[0])
         .join("")
         .slice(0, 2)
         .toUpperCase()

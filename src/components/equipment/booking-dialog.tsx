@@ -17,12 +17,13 @@ import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import { useSession } from "@/lib/auth-client";
 
 type BookingDialogProps = {
   equipmentName: string;
   price: string;
   rentaltype?: string;
-  availableQuantity: string
+  availableQuantity: string;
 };
 
 const rentalTypeLabels: Record<string, string> = {
@@ -37,8 +38,7 @@ const BookingDialog = ({
   equipmentName,
   price,
   rentaltype,
-  availableQuantity
-
+  availableQuantity,
 }: BookingDialogProps) => {
   const [open, setOpen] = useState(false);
   const [startDate, setStartDate] = useState("");
@@ -64,6 +64,28 @@ const BookingDialog = ({
 
   const totalAmount = Number(price) * rentalPeriods;
   const finalAmount = totalAmount * Number(qty);
+ const {data:session}=useSession()
+ const userInfo = session?.user
+  const handleBooking = (event:React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const userData = Object.fromEntries(formData.entries());
+
+    const bookingDetails ={
+      ...userData,
+      amaount: finalAmount,
+      customerId: userInfo?.id,
+      customerName:userInfo?.name,
+      bookingDate: new Date()
+      
+
+
+
+    }
+    console.log(bookingDetails);
+    setOpen(false);
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -79,17 +101,7 @@ const BookingDialog = ({
           </DialogDescription>
         </DialogHeader>
 
-        <form
-          className="space-y-4"
-          onSubmit={(event) => {
-            event.preventDefault();
-
-            const formData = new FormData(event.currentTarget);
-            const userData = Object.fromEntries(formData.entries());
-            console.log(userData);
-            // setOpen(false);
-          }}
-        >
+        <form className="space-y-4" onSubmit={handleBooking}>
           <div className="grid gap-4 sm:grid-cols-2">
             <Field>
               <FieldLabel htmlFor="rental-start">

@@ -28,7 +28,7 @@ const Navbar = async () => {
         <Link href={"/"} className="flex shrink-0 items-center">
           <Image
             src={"/image/logo.png"}
-            width={130}
+            width={120}
             height={44}
             alt="rentalLagbe logo"
             className="h-auto w-auto"

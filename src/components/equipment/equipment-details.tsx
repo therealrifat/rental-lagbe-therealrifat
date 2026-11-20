@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/card";
 import type { EquipmentRecord } from "@/types/equipment";
 import { getUserInfo } from "@/lib/api/users";
+import { redirect } from "next/navigation";
+import { getUserSessionServer } from "@/lib/core/session-server";
 
 const categoryLabels: Record<string, string> = {
   "construction-equipment": "Construction Equipment",
@@ -107,8 +109,15 @@ const DetailRow = ({
 
 
 const EquipmentDetails = async({ item }: { item: EquipmentRecord }) => {
+const isLogin =await getUserSessionServer()
+ if(!isLogin){
+    redirect("/login")
+  }
+
   const ownerData = await getUserInfo(item.ownerId)
-  console.log(ownerData)
+
+ 
+  console.log("kuk",ownerData)
 
 
   const imageUrl = resolveImageUrl(item.image);

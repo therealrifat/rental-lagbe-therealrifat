@@ -16,7 +16,14 @@ import { buttonVariants } from "@/components/ui/button";
 import { deleteMyEquipment } from "@/lib/actions/owner";
 import { toast } from "../ui/toast";
 import { useRouter } from "next/navigation";
-const DeleteEquipment = ({ equipment }) => {
+const DeleteEquipment = ({
+  equipment,
+}: {
+  equipment: {
+    _id: string;
+    equipmentName: string;
+  };
+}) => {
   const router = useRouter();
   const handleDelete = async () => {
     console.log("delete");

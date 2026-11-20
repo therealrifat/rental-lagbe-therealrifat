@@ -31,3 +31,5 @@ export interface Equipment {
   ownerId: string;
   status: Status;
 }
+
+export type EquipmentRecord = Equipment & { _id: string };

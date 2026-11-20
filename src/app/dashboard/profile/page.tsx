@@ -1,4 +1,4 @@
-import ProfileUpdate from "@/components/profile-update";
+import ProfileUpdate from "@/components/profile/profile-update";
 
 const OwnerProfile = async () => {
   return (

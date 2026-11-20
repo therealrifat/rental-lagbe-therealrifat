@@ -13,12 +13,12 @@ import { Input } from "@/components/ui/input";
 import { UserRole } from "@/types/UserRole";
 import { ShieldUser } from "lucide-react";
 import Image from "next/image";
-import ImageUpload from "./profile/image-upload";
+import ImageUpload from "./image-upload";
 import { authClient } from "@/lib/auth-client";
 import { User } from "@/types/User";
 import { UpdateProfielInfo } from "@/lib/actions/users";
 import { useState } from "react";
-import { Spinner } from "./ui/spinner";
+import { Spinner } from "../ui/spinner";
 import { useRouter } from "next/navigation";
 
 const ProfileUpdate = () => {

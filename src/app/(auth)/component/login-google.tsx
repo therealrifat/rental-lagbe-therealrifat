@@ -14,7 +14,7 @@ const LoginWithGoogle = (mode:{mode:string}) => {
 
   return (
     <div>
-      <Button className={"cursor-pointer"} variant="outline" onClick={handleGoogleLogin}>
+      <Button className="w-full cursor-pointer" variant="outline" onClick={handleGoogleLogin}>
         <FcGoogle /> {mode.mode} with Google
       </Button>
     </div>

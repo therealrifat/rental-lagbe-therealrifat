@@ -237,6 +237,7 @@ const EquipmentDetails = async({ item }: { item: EquipmentRecord }) => {
                 equipmentName={item.equipmentName || "this equipment"}
                 price={item.price || ""}
                 rentaltype={item.rentaltype}
+                availableQuantity={item.quantity}
               />
             </CardFooter>
           </Card>

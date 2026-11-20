@@ -13,11 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  Field,
-  FieldDescription,
-  FieldLabel,
-} from "@/components/ui/field";
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
@@ -26,6 +22,7 @@ type BookingDialogProps = {
   equipmentName: string;
   price: string;
   rentaltype?: string;
+  availableQuantity: string
 };
 
 const rentalTypeLabels: Record<string, string> = {
@@ -40,14 +37,37 @@ const BookingDialog = ({
   equipmentName,
   price,
   rentaltype,
+  availableQuantity
+
 }: BookingDialogProps) => {
   const [open, setOpen] = useState(false);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [qty, setQty] = useState("1");
+
+  const rentalDays =
+    startDate && endDate
+      ? Math.floor(
+          (new Date(endDate).getTime() - new Date(startDate).getTime()) /
+            (1000 * 60 * 60 * 24),
+        ) + 1
+      : 0;
+
+  const rentalPeriods =
+    rentaltype === "daily"
+      ? rentalDays
+      : rentaltype === "weekly"
+        ? Math.ceil(rentalDays / 7)
+        : rentaltype === "monthly"
+          ? Math.ceil(rentalDays / 30)
+          : 0;
+
+  const totalAmount = Number(price) * rentalPeriods;
+  const finalAmount = totalAmount * Number(qty);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger
-        render={<Button size="lg" className="w-full sm:w-auto" />}
-      >
+      <DialogTrigger render={<Button size="lg" className="w-full sm:w-auto" />}>
         Book Now
       </DialogTrigger>
 
@@ -63,16 +83,24 @@ const BookingDialog = ({
           className="space-y-4"
           onSubmit={(event) => {
             event.preventDefault();
-            setOpen(false);
+
+            const formData = new FormData(event.currentTarget);
+            const userData = Object.fromEntries(formData.entries());
+            console.log(userData);
+            // setOpen(false);
           }}
         >
           <div className="grid gap-4 sm:grid-cols-2">
             <Field>
-              <FieldLabel htmlFor="rental-start">Rental Start Date *</FieldLabel>
+              <FieldLabel htmlFor="rental-start">
+                Rental Start Date *
+              </FieldLabel>
               <Input
                 id="rental-start"
                 name="rentalStartDate"
                 type="date"
+                min={new Date().toLocaleDateString("en-CA")}
+                onChange={(e) => setStartDate(e.target.value)}
                 required
               />
             </Field>
@@ -83,6 +111,8 @@ const BookingDialog = ({
                 id="rental-end"
                 name="rentalEndDate"
                 type="date"
+                min={startDate || new Date().toLocaleDateString("en-CA")}
+                onChange={(e) => setEndDate(e.target.value)}
                 required
               />
             </Field>
@@ -95,7 +125,9 @@ const BookingDialog = ({
                 id="booking-quantity"
                 name="quantity"
                 type="number"
+                onChange={(e) => setQty(e.target.value)}
                 min={1}
+                max={availableQuantity}
                 defaultValue={1}
                 required
               />
@@ -143,7 +175,9 @@ const BookingDialog = ({
             <div className="mt-1 flex items-center justify-between gap-4">
               <span className="text-muted-foreground">Rental type</span>
               <span className="font-medium">
-                {rentaltype ? (rentalTypeLabels[rentaltype] ?? rentaltype) : "—"}
+                {rentaltype
+                  ? (rentalTypeLabels[rentaltype] ?? rentaltype)
+                  : "—"}
               </span>
             </div>
 
@@ -151,7 +185,7 @@ const BookingDialog = ({
 
             <div className="flex items-center justify-between gap-4">
               <span className="font-medium">Total amount</span>
-              <span className="font-medium">Calculated on confirmation</span>
+              <span className="font-medium">{finalAmount}</span>
             </div>
             <FieldDescription className="mt-2">
               Availability is checked before payment. Payment is the next step.

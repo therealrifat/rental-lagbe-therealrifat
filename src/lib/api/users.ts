@@ -12,3 +12,9 @@ export const getEquipment = async(Id:string)=>{
   const res = await fetch(`${BASE_URL}/equipment/${Id}`)
   return res.json()
 }
+
+export const getUserInfo =async(Id:string)=>{
+  const res = await fetch(`${BASE_URL}/user/${Id}`)
+  
+  return res.json()
+}

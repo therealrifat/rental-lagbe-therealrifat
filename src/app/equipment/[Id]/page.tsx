@@ -1,21 +1,20 @@
-import { getEquipment } from '@/lib/api/users';
-import React from 'react';
+import EquipmentDetails from "@/components/equipment/equipment-details";
+import { getEquipment } from "@/lib/api/users";
+import type { EquipmentRecord } from "@/types/equipment";
 
-const EquipmentDetailsPage = async({params}: {
+const EquipmentDetailsPage = async ({
+  params,
+}: {
   params: Promise<{ Id: string }>;
 }) => {
-    const {Id} = await params
+  const { Id } = await params;
 
+  const result = await getEquipment(Id);
+  const item = {
+    ...((Array.isArray(result) ? result[0] : result) ?? {}),
+  } as EquipmentRecord;
 
-    const result = await getEquipment(Id)
-
-    console.log(result)
-
-    return (
-        <div>
-            <h1>Details Page {Id}</h1>
-        </div>
-    );
+  return <EquipmentDetails item={item} />;
 };
 
 export default EquipmentDetailsPage;

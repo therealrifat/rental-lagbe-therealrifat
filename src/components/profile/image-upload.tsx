@@ -2,9 +2,18 @@
 
 import { useRef, useState } from "react";
 import { Upload } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-export default function ImageUpload({image}:{image:string}) {
+type ImageUploadProps = {
+  image: string;
+  onPreviewChange?: (url: string) => void;
+};
+
+export default function ImageUpload({
+  image,
+  onPreviewChange,
+}: ImageUploadProps) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState(false);
@@ -36,6 +45,7 @@ export default function ImageUpload({image}:{image:string}) {
       }
 
       setImageUrl(result.data.url);
+      onPreviewChange?.(result.data.url);
     } catch (error) {
       console.error(error);
       alert("Image upload failed!");
@@ -46,13 +56,17 @@ export default function ImageUpload({image}:{image:string}) {
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
       <Input
         name="image"
         type="url"
         placeholder="https://example.com/image"
-        defaultValue={image??imageUrl}
-        onChange={(e) => setImageUrl(e.target.value)}
+        value={imageUrl || image}
+        onChange={(e) => {
+          setImageUrl(e.target.value);
+          onPreviewChange?.(e.target.value);
+        }}
+        className="flex-1"
         required
       />
 
@@ -64,15 +78,16 @@ export default function ImageUpload({image}:{image:string}) {
         className="hidden"
       />
 
-      <button
+      <Button
         type="button"
+        variant="outline"
         onClick={() => fileRef.current?.click()}
         disabled={loading}
-        className="flex items-center gap-2 rounded-md bg-orange-600 px-3 py-1.5 text-sm text-white"
+        className="shrink-0"
       >
         <Upload size={16} />
         {loading ? "Uploading" : "Upload"}
-      </button>
+      </Button>
     </div>
   );
 }

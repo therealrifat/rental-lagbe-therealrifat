@@ -4,6 +4,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -12,7 +13,6 @@ import { Input } from "@/components/ui/input";
 
 import { UserRole } from "@/types/UserRole";
 import { ShieldUser } from "lucide-react";
-import Image from "next/image";
 import ImageUpload from "./image-upload";
 import { authClient } from "@/lib/auth-client";
 import { User } from "@/types/User";
@@ -28,6 +28,14 @@ const ProfileUpdate = () => {
   const userInfo = session?.user as User | undefined;
   const role: UserRole =
     (userInfo as { role?: UserRole } | undefined)?.role || "customer";
+
+  const [editedImage, setEditedImage] = useState("");
+  const [failedImage, setFailedImage] = useState<string | null>(null);
+  const avatarUrl = (editedImage || userInfo?.image || "").trim();
+  const avatarSrc =
+    !avatarUrl || failedImage === avatarUrl
+      ? "/avatar-placeholder.svg"
+      : avatarUrl;
 
   const handleProfileInfo = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,34 +55,41 @@ const ProfileUpdate = () => {
 
   };
   return (
-    <Card className="bg-slate-100 max-w-2xl flex mx-auto">
-      <CardHeader>
-        <div className="flex  mx-auto justify-center items-center gap-7 mb-10">
-          <Image
-            src={userInfo?.image || "/icon-192.png"}
-            width={100}
-            height={100}
-            alt="userProfile"
-            className=" rounded-full border-3 border-orange-300 "
-          />
-          <div className="space-y-1">
-            <h1 className={"text-3xl font-semibold"}>{userInfo?.name}</h1>
-            <p className={"text-md text-slate-400 "}>{userInfo?.email}</p>
-            <span className="text-sm w-22 text-white bg-orange-600 rounded-2xl py-1 flex gap-1 justify-center">
-              {" "}
-              <ShieldUser size={20} /> {role.toUpperCase()}
+    <Card className="w-full">
+      <CardHeader className="border-b pb-5">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+          <div className="size-16 shrink-0 overflow-hidden rounded-full bg-muted ring-1 ring-border">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={avatarSrc}
+              alt={`${userInfo?.name || "User"}'s profile`}
+              className="size-full object-cover"
+              onError={() => setFailedImage(avatarUrl)}
+            />
+          </div>
+
+          <div className="min-w-0 space-y-1">
+            <h2 className="truncate text-xl font-semibold">
+              {userInfo?.name || "Your profile"}
+            </h2>
+            <p className="truncate text-sm text-muted-foreground">
+              {userInfo?.email || "No email available"}
+            </p>
+            <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground">
+              <ShieldUser className="size-3.5" /> {role.toUpperCase()}
             </span>
           </div>
         </div>
 
-        <CardTitle className="text-center">Update Profile</CardTitle>
-        <CardDescription className="text-center">
-          Enter your information below to update your profile
+        <CardTitle className="pt-2 text-base">Update Profile</CardTitle>
+        <CardDescription>
+          Enter your information below to update your profile.
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <form onSubmit={handleProfileInfo}>
-          <FieldGroup className="grid grid-cols-2">
+
+      <form onSubmit={handleProfileInfo}>
+        <CardContent className="pt-5">
+          <FieldGroup className="grid gap-4 sm:grid-cols-2">
             <Field>
               <FieldLabel htmlFor="name">Full Name</FieldLabel>
               <Input
@@ -99,12 +114,8 @@ const ProfileUpdate = () => {
               />
             </Field>
 
-            <Field>
-              <FieldLabel htmlFor="image">Image URL</FieldLabel>
-              <ImageUpload image={userInfo?.image ?? ""} />
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="address">Delivary Address</FieldLabel>
+            <Field className="sm:col-span-2">
+              <FieldLabel htmlFor="address">Delivery Address</FieldLabel>
               <Input
                 id="address"
                 type="text"
@@ -114,23 +125,36 @@ const ProfileUpdate = () => {
                 required
               />
             </Field>
-          </FieldGroup>
-          <FieldGroup className="mt-10">
-            <Field></Field>
-            <Field>
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? (
-                  <>
-                    <Spinner /> Save and Change
-                  </>
-                ) : (
-                  "Save and Change"
-                )}
-              </Button>
+
+            <Field className="sm:col-span-2">
+              <FieldLabel htmlFor="image">Image URL</FieldLabel>
+              <ImageUpload
+                image={userInfo?.image ?? ""}
+                onPreviewChange={(url) => {
+                  setEditedImage(url);
+                  setFailedImage(null);
+                }}
+              />
             </Field>
           </FieldGroup>
-        </form>
-      </CardContent>
+        </CardContent>
+
+        <CardFooter className="justify-end">
+          <Button
+            type="submit"
+            className="w-full sm:w-auto"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <Spinner /> Save and Change
+              </>
+            ) : (
+              "Save and Change"
+            )}
+          </Button>
+        </CardFooter>
+      </form>
     </Card>
   );
 };

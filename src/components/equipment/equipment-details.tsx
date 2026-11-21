@@ -244,7 +244,7 @@ const isLogin =await getUserSessionServer()
             <CardFooter>
               <BookingDialog
                 equipmentName={item.equipmentName || "this equipment"}
-                price={item.price || ""}
+                price={item.price || 0}
                 rentaltype={item.rentaltype}
                 availableQuantity={item.quantity}
                 equipmentId={item._id}

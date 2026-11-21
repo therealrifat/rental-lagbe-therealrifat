@@ -31,9 +31,9 @@ export type RentalBookingPayload = {
 };
 type BookingDialogProps = {
   equipmentName: string;
-  price: string;
+  price: number;
   rentaltype?: string;
-  availableQuantity: string;
+  availableQuantity: number;
   equipmentId: string
 };
 

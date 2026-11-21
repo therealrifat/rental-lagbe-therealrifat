@@ -20,3 +20,13 @@ export const getMyRentals = async (userId: string) => {
   const res = await fetch(`${BASE_URL}/customer/myrental/${userId}`);
   return res.json();
 };
+
+
+export const getAllEquipments = async () => {
+
+  const res = await fetch(`${BASE_URL}/equipment/`);
+  return res.json();
+
+  
+};
+

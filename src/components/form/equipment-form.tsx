@@ -34,6 +34,7 @@ import { addedEquipment } from "@/lib/actions/owner";
 import { Equipment } from "@/types/equipment";
 import { Spinner } from "../ui/spinner";
 import { toast } from "../ui/toast";
+import ImageUpload from "../profile/image-upload";
 
 const items = [
   { label: "Construction Equipment", value: "construction-equipment" },
@@ -77,18 +78,18 @@ const EquipmentForm = () => {
     const formData = new FormData(e.currentTarget);
     const userData = Object.fromEntries(formData.entries());
 
-    const {price,quantity, ...others}=userData
+    const { price, quantity, ...others } = userData;
 
     const equipment = {
       ...others,
-      quantity:Number(quantity),
-      price:Number(price),
+      quantity: Number(quantity),
+      price: Number(price),
       category: category,
       rentaltype: rental ?? "",
       equipmentCondition: condition,
       ownerId: userInfo?.id,
       status: "Pending",
-    } as Equipment ;
+    } as Equipment;
 
     const result = await addedEquipment(equipment);
 
@@ -293,11 +294,9 @@ const EquipmentForm = () => {
               </Field>
 
               <Field className="sm:col-span-2">
-                <FieldLabel htmlFor="image">Image *</FieldLabel>
-                <FieldDescription>
-                  Upload a clear photo of the equipment.
-                </FieldDescription>
-                <Input id="image" type="file" name="image" required />
+                <FieldLabel htmlFor="image">Equipment Image</FieldLabel>
+
+                <ImageUpload name="image" image="" required />
               </Field>
             </div>
           </FieldSet>

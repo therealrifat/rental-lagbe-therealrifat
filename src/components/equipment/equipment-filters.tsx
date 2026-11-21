@@ -74,7 +74,7 @@ const FilterSelect = ({
     <Select
       items={options}
       defaultValue={defaultValue}
-      onValueChange={onChange}
+      onValueChange={(value) => onChange?.(value ?? "")}
     >
       <SelectTrigger className="w-full">
         <SelectValue />

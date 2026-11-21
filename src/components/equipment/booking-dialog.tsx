@@ -19,7 +19,16 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useSession } from "@/lib/auth-client";
 import { addBookingInfo } from './../../lib/actions/booking';
+import { BookingDocument } from "@/types/equipment";
 
+export type RentalBookingPayload = {
+  rentalStartDate: string;
+  rentalEndDate: string;
+  quantity: string;
+  contactNumber: string;
+  deliveryAddress: string;
+  notes: string;
+};
 type BookingDialogProps = {
   equipmentName: string;
   price: string;
@@ -75,20 +84,20 @@ const BookingDialog = ({
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    const userData = Object.fromEntries(formData.entries());
+    const userData = Object.fromEntries(formData.entries()) as RentalBookingPayload;
 
-    const bookingDetails = {
+    const bookingDetails: BookingDocument = {
       ...userData,
       amount: finalAmount,
-      customerId: userInfo?.id,
-      customerName: userInfo?.name,
+      customerId: userInfo?.id ?? "",
+      customerName: userInfo?.name ?? "",
       equipmentId: equipmentId,
-      bookingDate: new Date(),
+      bookingDate: new Date().toISOString(),
       paymentStatus: false,
       bookingStatus: "Pending",
       equipmentName
+      
     };
-    console.log(bookingDetails);
 
     const result= await addBookingInfo(bookingDetails)
     

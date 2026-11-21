@@ -32,4 +32,33 @@ export interface Equipment {
   status: Status;
 }
 
+
+export type BookingDocument = {
+  rentalStartDate: string;
+  rentalEndDate: string;
+  quantity: string;
+  contactNumber: string;
+  deliveryAddress: string;
+  notes: string;
+  amount: number;
+  customerId: string;
+  customerName: string;
+  equipmentId: string;
+  bookingDate: string;
+  paymentStatus: boolean;
+  bookingStatus: "Pending" | "Approved" | "Rejected";
+  equipmentName: string;
+};
+
+
+export type RentalRecord = {
+  _id: string;
+  equipmentName: string;
+  rentalStartDate: string;
+  rentalEndDate: string;
+  bookingDate: string;
+  amount: number;
+  paymentStatus: boolean;
+  bookingStatus: "Pending" | "Approved" | "Rejected";
+};
 export type EquipmentRecord = Equipment & { _id: string };

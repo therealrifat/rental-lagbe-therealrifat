@@ -1,70 +1,9 @@
 import { getMyRentals } from "@/lib/api/users";
 import { getUserSessionServer } from "@/lib/core/session-server";
+import { RentalRecord } from "@/types/equipment";
 
 
-type RentalRecord = {
-  _id: string;
-  equipmentName: string;
-  rentalStartDate: string;
-  rentalEndDate: string;
-  bookingDate: string;
-  amount: number;
-  paymentStatus: boolean;
-  bookingStatus: "Pending" | "Approved" | "Rejected";
-};
 
-// const dummyRentals: RentalRecord[] = [
-//   {
-//     id: "1",
-//     equipmentName: "Excavator CAT 320",
-//     rentalStartDate: "2026-11-02",
-//     rentalEndDate: "2026-11-08",
-//     bookingDate: "2026-10-28",
-//     amount: 42000,
-//     paymentStatus: true,
-//     bookingStatus: "Approved",
-//   },
-//   {
-//     id: "2",
-//     equipmentName: "Sony A7 IV Camera Kit",
-//     rentalStartDate: "2026-11-12",
-//     rentalEndDate: "2026-11-15",
-//     bookingDate: "2026-11-05",
-//     amount: 9500,
-//     paymentStatus: false,
-//     bookingStatus: "Pending",
-//   },
-//   {
-//     id: "3",
-//     equipmentName: "Toyota HiAce Van",
-//     rentalStartDate: "2026-10-10",
-//     rentalEndDate: "2026-10-20",
-//     bookingDate: "2026-10-01",
-//     amount: 18000,
-//     paymentStatus: true,
-//     bookingStatus: "Approved",
-//   },
-//   {
-//     id: "4",
-//     equipmentName: "Pressure Washer",
-//     rentalStartDate: "2026-09-21",
-//     rentalEndDate: "2026-09-24",
-//     bookingDate: "2026-09-18",
-//     amount: 3200,
-//     paymentStatus: false,
-//     bookingStatus: "Rejected",
-//   },
-//   {
-//     id: "5",
-//     equipmentName: "Tractor - Mahindra 575",
-//     rentalStartDate: "2026-12-01",
-//     rentalEndDate: "2026-12-10",
-//     bookingDate: "2026-11-18",
-//     amount: 27500,
-//     paymentStatus: true,
-//     bookingStatus: "Approved",
-//   },
-// ];
 
 const paymentStyles: Record<string, string> = {
   Paid: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",

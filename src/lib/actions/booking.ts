@@ -1,6 +1,11 @@
+import { BookingDocument } from "@/types/equipment";
+
+
+
+
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export const addBookingInfo = async ( bookingData ) => {
+export const addBookingInfo = async ( bookingData:BookingDocument ) => {
   const res = await fetch(`${BASE_URL}/customers/bookings`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

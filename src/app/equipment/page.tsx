@@ -8,9 +8,6 @@ const AllEquipment = async() => {
 
   const result =await getAllEquipments()
 
-  // const equipments = dummyEquipments.filter(
-  //   (equipment) => equipment.status === "Approved",
-  // );
 
   const equipments = result
 

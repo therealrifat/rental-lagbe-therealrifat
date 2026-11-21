@@ -17,7 +17,7 @@ const Navbar = async () => {
   const links = (
     <>
       <Link href={"/"}>Home</Link>
-      <Link href={"/"}>All Equipment</Link>
+      <Link href={"/equipment"}>All Equipment</Link>
       <Link href={"/"}>About Us</Link>
     </>
   );

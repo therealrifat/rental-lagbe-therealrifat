@@ -18,12 +18,14 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useSession } from "@/lib/auth-client";
+import { addBookingInfo } from './../../lib/actions/booking';
 
 type BookingDialogProps = {
   equipmentName: string;
   price: string;
   rentaltype?: string;
   availableQuantity: string;
+  equipmentId: string
 };
 
 const rentalTypeLabels: Record<string, string> = {
@@ -39,6 +41,7 @@ const BookingDialog = ({
   price,
   rentaltype,
   availableQuantity,
+  equipmentId
 }: BookingDialogProps) => {
   const [open, setOpen] = useState(false);
   const [startDate, setStartDate] = useState("");
@@ -64,27 +67,39 @@ const BookingDialog = ({
 
   const totalAmount = Number(price) * rentalPeriods;
   const finalAmount = totalAmount * Number(qty);
- const {data:session}=useSession()
- const userInfo = session?.user
-  const handleBooking = (event:React.FormEvent<HTMLFormElement>) => {
+  const { data: session } = useSession();
+  const userInfo = session?.user;
+
+
+  const handleBooking = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
     const userData = Object.fromEntries(formData.entries());
 
-    const bookingDetails ={
+    const bookingDetails = {
       ...userData,
       amaount: finalAmount,
       customerId: userInfo?.id,
-      customerName:userInfo?.name,
-      bookingDate: new Date()
-      
-
-
-
-    }
+      customerName: userInfo?.name,
+      equipmentId: equipmentId,
+      bookingDate: new Date(),
+      paymentStatus: false
+    };
     console.log(bookingDetails);
-    setOpen(false);
+
+    const result= await addBookingInfo(bookingDetails)
+    
+
+
+    if(result.insertedId){
+      console.log(result)
+       setOpen(false);
+    }
+
+    
+
+   
   };
 
   return (

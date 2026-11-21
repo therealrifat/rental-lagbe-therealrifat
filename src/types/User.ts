@@ -12,3 +12,8 @@ export interface User {
   role: UserRole;
   emailVerified: boolean;
 }
+
+
+export interface Booking {
+  
+}

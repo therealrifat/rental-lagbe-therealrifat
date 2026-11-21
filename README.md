@@ -19,6 +19,7 @@ Rental Lagbe is a web application for listing, browsing, and renting equipment. 
 - **Payments** — payment information page and Stripe Checkout success page that verifies the session and displays transaction details.
 - **My Rentals** — customer rental history table with payment and booking status (currently populated with dummy data).
 - **Profile management** — update personal information and profile image, with live preview.
+- **Animated hero banner** — Framer Motion entrance animations with a high-quality image and short platform introduction.
 - **Responsive design** — mobile, tablet, and desktop layouts using Tailwind CSS 4 and reusable UI components.
 
 > Note: some listing and rental views currently use local dummy data; connecting them to the live API is planned follow-up work.
@@ -66,6 +67,7 @@ Equipment and booking data are provided by an external API through `NEXT_PUBLIC_
 - `better-auth`
 - `class-variance-authority`
 - `cn`
+- `framer-motion`
 - `lucide-react`
 - `mongodb`
 - `next`

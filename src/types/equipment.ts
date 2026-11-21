@@ -19,9 +19,9 @@ export interface Equipment {
   equipmentName: string;
   location: string;
   brandName: string;
-  price: string; 
+  price: number; 
   description: string;
-  quantity: string;
+  quantity: number;
   terms: string;
   modelName: string;
   image?: Record<string, unknown>;

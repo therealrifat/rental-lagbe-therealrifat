@@ -60,11 +60,7 @@ const resolveImageUrl = (image: unknown): string | null => {
   return null;
 };
 
-const formatPrice = (price?: string) => {
-  const value = Number(price);
-  if (!price || Number.isNaN(value)) return "—";
-  return `৳${value.toLocaleString("en-US")}`;
-};
+
 
 const EquipmentCard = ({ equipment }: { equipment: EquipmentRecord }) => {
   const [imageFailed, setImageFailed] = useState(false);
@@ -109,7 +105,7 @@ const EquipmentCard = ({ equipment }: { equipment: EquipmentRecord }) => {
 
         <div className="mt-auto flex items-end justify-between gap-2 pt-3">
           <div>
-            <p className="text-lg font-bold">{formatPrice(equipment.price)}</p>
+            <p className="text-lg font-bold">{equipment.price}</p>
             <p className="text-xs text-muted-foreground">Rental Price</p>
           </div>
           <span className="rounded-md bg-muted px-2 py-1 text-xs font-medium">

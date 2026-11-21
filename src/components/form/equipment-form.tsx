@@ -77,16 +77,21 @@ const EquipmentForm = () => {
     const formData = new FormData(e.currentTarget);
     const userData = Object.fromEntries(formData.entries());
 
+    const {price,quantity, ...others}=userData
+
     const equipment = {
-      ...userData,
+      ...others,
+      quantity:Number(quantity),
+      price:Number(price),
       category: category,
       rentaltype: rental ?? "",
       equipmentCondition: condition,
       ownerId: userInfo?.id,
       status: "Pending",
-    } as Equipment;
+    } as Equipment ;
 
     const result = await addedEquipment(equipment);
+
     if (!result.insertedId) {
       toast.add({
         description: "Somthing Went Wrong",

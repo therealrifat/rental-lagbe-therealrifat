@@ -12,6 +12,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type FilterOption = { label: string; value: string };
 
@@ -22,8 +24,8 @@ const searchByOptions: FilterOption[] = [
 
 const sortOptions: FilterOption[] = [
   { label: "Recently Added", value: "recent" },
-  { label: "Price Low to High", value: "price-asc" },
-  { label: "Price High to Low", value: "price-desc" },
+  { label: "Price Low to High", value: "low-to-high" },
+  { label: "Price High to Low", value: "high-to-low" },
 ];
 
 const categoryOptions: FilterOption[] = [
@@ -42,7 +44,7 @@ const categoryOptions: FilterOption[] = [
 const rentalTypeOptions: FilterOption[] = [
   { label: "All Rental Types", value: "all" },
   { label: "Daily", value: "daily" },
-  { label: "Weekly", value: "week" },
+  { label: "Weekly", value: "weekly" },
   { label: "Monthly", value: "month" },
 ];
 
@@ -57,17 +59,23 @@ const FilterSelect = ({
   options,
   defaultValue,
   className,
+  onChange,
 }: {
   label: string;
   options: FilterOption[];
   defaultValue: string;
   className?: string;
+  onChange?: (value: string) => void;
 }) => (
   <div className={`space-y-1.5 ${className ?? ""}`}>
     <span className="block text-xs font-medium text-muted-foreground">
       {label}
     </span>
-    <Select items={options} defaultValue={defaultValue}>
+    <Select
+      items={options}
+      defaultValue={defaultValue}
+      onValueChange={onChange}
+    >
       <SelectTrigger className="w-full">
         <SelectValue />
       </SelectTrigger>
@@ -86,6 +94,37 @@ const FilterSelect = ({
 );
 
 const EquipmentFilters = () => {
+  const router = useRouter();
+  const [category, setCategory] = useState("all");
+  const [sort, setSort] = useState("all");
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [rentalType, setRentalType] = useState("all");
+  const [search, setSearch] = useState("");
+  const [searchType, setSearchType] = useState("");
+  const [availability, setAvailability] = useState("");
+
+  console.log(
+    { category },
+    { minPrice },
+    { maxPrice },
+    { rentalType },
+    { search },
+    { searchType },
+    { availability },
+  );
+
+  const handleFilter = (key: string, value: string) => {
+    const params = new URLSearchParams(window.location.search);
+
+    if (!value || value === "all") {
+      params.delete(key);
+    } else {
+      params.set(key, value);
+    }
+
+    router.push(`/equipment?${params.toString()}`);
+  };
   return (
     <section className="rounded-xl border border-border bg-card p-4 sm:p-5">
       <div className="mb-4 flex items-center gap-2">
@@ -95,7 +134,10 @@ const EquipmentFilters = () => {
 
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end">
         <div className="min-w-0 flex-1 space-y-1.5">
-          <label htmlFor="equipment-search" className="block text-xs font-medium text-muted-foreground">
+          <label
+            htmlFor="equipment-search"
+            className="block text-xs font-medium text-muted-foreground"
+          >
             Search
           </label>
           <div className="relative">
@@ -103,6 +145,7 @@ const EquipmentFilters = () => {
             <Input
               id="equipment-search"
               type="search"
+              onChange={(e) => setSearch(e.target.value)}
               placeholder="Search equipment..."
               className="pl-9"
             />
@@ -114,6 +157,7 @@ const EquipmentFilters = () => {
           options={searchByOptions}
           defaultValue="name"
           className="w-full sm:w-44"
+          onChange={setSearchType}
         />
 
         <FilterSelect
@@ -121,6 +165,10 @@ const EquipmentFilters = () => {
           options={sortOptions}
           defaultValue="recent"
           className="w-full sm:w-52"
+          onChange={(value) => {
+            setRentalType(value);
+            handleFilter("sort", value);
+          }}
         />
       </div>
 
@@ -129,11 +177,19 @@ const EquipmentFilters = () => {
           label="Equipment Category"
           options={categoryOptions}
           defaultValue="all"
+          onChange={(value) => {
+            setCategory(value);
+            handleFilter("category", value);
+          }}
         />
         <FilterSelect
           label="Rental Type"
           options={rentalTypeOptions}
           defaultValue="all"
+          onChange={(value) => {
+            setRentalType(value);
+            handleFilter("rentaltype", value);
+          }}
         />
 
         <div className="space-y-1.5">
@@ -141,9 +197,29 @@ const EquipmentFilters = () => {
             Price Range
           </span>
           <div className="flex items-center gap-2">
-            <Input type="number" min="0" placeholder="Min" aria-label="Minimum price" className="min-w-0" />
+            <Input
+              type="number"
+              min="0"
+              onChange={(e) => {
+                setMinPrice(e.target.value);
+                handleFilter("minPrice", e.target.value);
+              }}
+              placeholder="Min"
+              aria-label="Minimum price"
+              className="min-w-0"
+            />
             <span className="text-muted-foreground">–</span>
-            <Input type="number" min="0" placeholder="Max" aria-label="Maximum price" className="min-w-0" />
+            <Input
+              type="number"
+              min="0"
+              onChange={(e) => {
+                setMaxPrice(e.target.value);
+                handleFilter("maxPrice", e.target.value);
+              }}
+              placeholder="Max"
+              aria-label="Maximum price"
+              className="min-w-0"
+            />
           </div>
         </div>
 
@@ -151,6 +227,10 @@ const EquipmentFilters = () => {
           label="Availability"
           options={availabilityOptions}
           defaultValue="all"
+          onChange={(value) => {
+            setAvailability(value);
+            handleFilter("status", value);
+          }}
         />
       </div>
     </section>

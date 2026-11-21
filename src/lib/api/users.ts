@@ -22,11 +22,11 @@ export const getMyRentals = async (userId: string) => {
 };
 
 
-export const getAllEquipments = async () => {
+export const getAllEquipments = async (query="") => {
 
-  const res = await fetch(`${BASE_URL}/equipment/`);
+  const res = await fetch(`${BASE_URL}/equipment?${query}`);
   return res.json();
 
-  
+
 };
 

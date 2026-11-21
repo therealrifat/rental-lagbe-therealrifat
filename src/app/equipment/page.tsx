@@ -3,11 +3,23 @@ import EquipmentFilters from "@/components/equipment/equipment-filters";
 
 import { getAllEquipments } from "@/lib/api/users";
 import { EquipmentRecord } from "@/types/equipment";
+type SearchParams = Promise<Record<string, string | string[] | undefined>>
 
-const AllEquipment = async() => {
+function toQueryString(params: Record<string, string | string[] | undefined>) {
+  const search = new URLSearchParams()
+  for (const [key, value] of Object.entries(params)) {
+    if (Array.isArray(value)) value.forEach((item) => search.append(key, item))
+    else if (value !== undefined) search.set(key, value)
+  }
+  return search.toString()
+}
 
-  const result =await getAllEquipments()
+const AllEquipment = async({searchParams}: { searchParams: SearchParams }) => {
 
+  const params = await searchParams
+  const query = toQueryString(params)
+
+  const result =await getAllEquipments(query)
 
   const equipments = result
 

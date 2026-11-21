@@ -14,13 +14,10 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Button } from "../ui/button";
 
 type FilterOption = { label: string; value: string };
 
-const searchByOptions: FilterOption[] = [
-  { label: "Equipment Name", value: "name" },
-  { label: "Location", value: "location" },
-];
 
 const sortOptions: FilterOption[] = [
   { label: "Recently Added", value: "recent" },
@@ -101,21 +98,27 @@ const EquipmentFilters = () => {
   const [maxPrice, setMaxPrice] = useState("");
   const [rentalType, setRentalType] = useState("all");
   const [search, setSearch] = useState("");
-  const [searchType, setSearchType] = useState("");
+
   const [availability, setAvailability] = useState("");
 
-  console.log(
-    { category },
-    { minPrice },
-    { maxPrice },
-    { rentalType },
-    { search },
-    { searchType },
-    { availability },
-  );
+  // console.log(
+  //   { category },
+  //   { minPrice },
+  //   { maxPrice },
+  //   { rentalType },
+  //   { search },
+  //   { searchType },
+  //   { availability },
+  // );
 
+
+  const clearFilters = () => {
+  setSearch("");
+  router.push("/equipment");
+};
   const handleFilter = (key: string, value: string) => {
     const params = new URLSearchParams(window.location.search);
+
 
     if (!value || value === "all") {
       params.delete(key);
@@ -142,23 +145,32 @@ const EquipmentFilters = () => {
           </label>
           <div className="relative">
             <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
+            {/* <Input
               id="equipment-search"
               type="search"
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search equipment..."
               className="pl-9"
+            /> */}
+            <Input
+              placeholder="Search equipment..."
+              className="pl-9"
+              value={search}
+              type="search"
+              onChange={(e) => {
+                setSearch(e.target.value);
+                handleFilter("search", e.target.value);
+              }}
             />
           </div>
         </div>
 
-        <FilterSelect
-          label="Search by"
-          options={searchByOptions}
-          defaultValue="name"
-          className="w-full sm:w-44"
-          onChange={setSearchType}
-        />
+        <Button
+  variant="outline"
+  onClick={clearFilters}
+>
+  Clear Filters
+</Button>
 
         <FilterSelect
           label="Sort by"
@@ -166,7 +178,7 @@ const EquipmentFilters = () => {
           defaultValue="recent"
           className="w-full sm:w-52"
           onChange={(value) => {
-            setRentalType(value);
+            setSort(value);
             handleFilter("sort", value);
           }}
         />

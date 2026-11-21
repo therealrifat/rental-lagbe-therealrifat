@@ -19,7 +19,7 @@ import Link from "next/link";
 const menuItemsByRole: Record<UserRole, MenuItem[]> = {
   customer: [
     { name: "Profile", url: "/dashboard/profile", icon: UserCog },
-    { name: "My Rentals", url: "/dashboard/myrental", icon: CalendarCheck },
+    { name: "My Rentals", url: "/dashboard/customer/my-rentals", icon: CalendarCheck },
     { name: "Favorites", url: "/dashboard/favorites", icon: BookHeart },
 
   ],

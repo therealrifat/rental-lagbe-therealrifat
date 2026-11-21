@@ -79,12 +79,14 @@ const BookingDialog = ({
 
     const bookingDetails = {
       ...userData,
-      amaount: finalAmount,
+      amount: finalAmount,
       customerId: userInfo?.id,
       customerName: userInfo?.name,
       equipmentId: equipmentId,
       bookingDate: new Date(),
-      paymentStatus: false
+      paymentStatus: false,
+      bookingStatus: "Pending",
+      equipmentName
     };
     console.log(bookingDetails);
 

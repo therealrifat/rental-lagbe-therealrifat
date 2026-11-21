@@ -20,6 +20,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useSession } from "@/lib/auth-client";
 import { addBookingInfo } from './../../lib/actions/booking';
 import { BookingDocument } from "@/types/equipment";
+import { useRouter } from "next/navigation";
 
 export type RentalBookingPayload = {
   rentalStartDate: string;
@@ -78,7 +79,7 @@ const BookingDialog = ({
   const finalAmount = totalAmount * Number(qty);
   const { data: session } = useSession();
   const userInfo = session?.user;
-
+  const router= useRouter()
 
   const handleBooking = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -104,6 +105,8 @@ const BookingDialog = ({
 
 
     if(result.insertedId){
+
+      router.push(`/payment/${result.insertedId}`)
       console.log(result)
        setOpen(false);
     }

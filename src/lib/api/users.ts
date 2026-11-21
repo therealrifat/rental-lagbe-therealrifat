@@ -30,3 +30,11 @@ export const getAllEquipments = async (query="") => {
 
 };
 
+
+
+export const getBookingInfo = async (bookId: string) => {
+  const res = await fetch(`${BASE_URL}/booking/${bookId}`);
+  return res.json();
+};
+
+

@@ -48,6 +48,7 @@ export type BookingDocument = {
   paymentStatus: boolean;
   bookingStatus: "Pending" | "Approved" | "Rejected";
   equipmentName: string;
+  ownerId: string
 };
 
 

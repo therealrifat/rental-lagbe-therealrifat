@@ -36,6 +36,7 @@ type BookingDialogProps = {
   rentaltype?: string;
   availableQuantity: number;
   equipmentId: string
+  ownerId:string
 };
 
 const rentalTypeLabels: Record<string, string> = {
@@ -51,7 +52,8 @@ const BookingDialog = ({
   price,
   rentaltype,
   availableQuantity,
-  equipmentId
+  equipmentId,
+  ownerId
 }: BookingDialogProps) => {
   const [open, setOpen] = useState(false);
   const [startDate, setStartDate] = useState("");
@@ -96,8 +98,8 @@ const BookingDialog = ({
       bookingDate: new Date().toISOString(),
       paymentStatus: false,
       bookingStatus: "Pending",
-      equipmentName
-      
+      equipmentName,
+      ownerId,
     };
 
     const result= await addBookingInfo(bookingDetails)
@@ -107,7 +109,7 @@ const BookingDialog = ({
     if(result.insertedId){
 
       router.push(`/payment/${result.insertedId}`)
-      console.log(result)
+
        setOpen(false);
     }
 

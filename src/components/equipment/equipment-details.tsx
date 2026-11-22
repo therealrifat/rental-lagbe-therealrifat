@@ -248,6 +248,7 @@ const isLogin =await getUserSessionServer()
                 rentaltype={item.rentaltype}
                 availableQuantity={item.quantity}
                 equipmentId={item._id}
+                ownerId={item.ownerId}
               />
             </CardFooter>
           </Card>

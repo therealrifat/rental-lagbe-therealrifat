@@ -65,9 +65,14 @@ const resolveImageUrl = (image: unknown): string | null => {
 type EquipmentCardProps = {
   equipment: EquipmentRecord;
   detailsHref?: string;
+  compact?: boolean;
 };
 
-const EquipmentCard = ({ equipment, detailsHref }: EquipmentCardProps) => {
+const EquipmentCard = ({
+  equipment,
+  detailsHref,
+  compact = false,
+}: EquipmentCardProps) => {
   const [imageFailed, setImageFailed] = useState(false);
   const rawImageUrl = resolveImageUrl(equipment.image);
   const imageUrl = !rawImageUrl || imageFailed ? FALLBACK_IMAGE : rawImageUrl;
@@ -75,18 +80,30 @@ const EquipmentCard = ({ equipment, detailsHref }: EquipmentCardProps) => {
 
   return (
     <Card className="h-full gap-0 overflow-hidden transition-shadow hover:shadow-md">
-      <div className="relative aspect-[4/3] w-full bg-muted">
+      <div
+        className={`relative w-full bg-muted ${
+          compact ? "aspect-[16/10]" : "aspect-[4/3]"
+        }`}
+      >
         <Image
           src={imageUrl}
           alt={equipment.equipmentName || "Equipment"}
           fill
           unoptimized
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          sizes={
+            compact
+              ? "(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+              : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          }
           className="object-cover"
           onError={() => setImageFailed(true)}
         />
         <span
-          className={`absolute top-3 right-3 inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium shadow-sm ${
+          className={`absolute inline-flex items-center rounded-full font-medium shadow-sm ${
+            compact
+              ? "top-2 right-2 px-2 py-0.5 text-[0.65rem]"
+              : "top-3 right-3 px-2.5 py-1 text-xs"
+          } ${
             available
               ? "bg-emerald-500/90 text-white"
               : "bg-destructive/90 text-white"
@@ -96,21 +113,37 @@ const EquipmentCard = ({ equipment, detailsHref }: EquipmentCardProps) => {
         </span>
       </div>
 
-      <CardContent className="flex flex-1 flex-col gap-2 pt-4 pb-4">
+      <CardContent
+        className={`flex flex-1 flex-col ${
+          compact ? "gap-1.5 pt-3 pb-3" : "gap-2 pt-4 pb-4"
+        }`}
+      >
         <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
           {formatLabel(equipment.category, categoryLabels)}
         </p>
-        <h2 className="line-clamp-2 text-base leading-snug font-semibold">
+        <h2
+          className={`line-clamp-2 leading-snug font-semibold ${
+            compact ? "text-sm" : "text-base"
+          }`}
+        >
           {equipment.equipmentName || "Untitled equipment"}
         </h2>
-        <p className="flex items-center gap-1 text-sm text-muted-foreground">
+        <p className="flex items-center gap-1 text-xs text-muted-foreground">
           <MapPin className="size-3.5 shrink-0" />
-          <span className="truncate">{equipment.location || "Location not specified"}</span>
+          <span className="truncate">
+            {equipment.location || "Location not specified"}
+          </span>
         </p>
 
-        <div className="mt-auto flex items-end justify-between gap-2 pt-3">
+        <div
+          className={`mt-auto flex items-end justify-between gap-2 ${
+            compact ? "pt-2" : "pt-3"
+          }`}
+        >
           <div>
-            <p className="text-lg font-bold">{equipment.price}</p>
+            <p className={`font-bold ${compact ? "text-base" : "text-lg"}`}>
+              {equipment.price}
+            </p>
             <p className="text-xs text-muted-foreground">Rental Price</p>
           </div>
           <span className="rounded-md bg-muted px-2 py-1 text-xs font-medium">
@@ -119,10 +152,11 @@ const EquipmentCard = ({ equipment, detailsHref }: EquipmentCardProps) => {
         </div>
       </CardContent>
 
-      <CardFooter className="p-4">
+      <CardFooter className={compact ? "p-3" : "p-4"}>
         <Button
           render={<Link href={detailsHref ?? `/equipment/${equipment._id}`} />}
           variant="outline"
+          size={compact ? "sm" : "default"}
           className="w-full"
         >
           View Details

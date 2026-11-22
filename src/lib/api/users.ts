@@ -38,3 +38,10 @@ export const getBookingInfo = async (bookId: string) => {
 };
 
 
+
+
+
+export const getOwnerRental = async(ownerId: string)=>{
+  const res = await fetch(`${BASE_URL}/owner/bookings/${ownerId}`);
+  return res.json();
+}

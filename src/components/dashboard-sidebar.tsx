@@ -27,7 +27,7 @@ const menuItemsByRole: Record<UserRole, MenuItem[]> = {
     { name: "My Profile", url: "/dashboard/profile", icon: UserCog },
     { name: "Add Equipment", url: "/dashboard/owner/add-equipment", icon: Plus },
     { name: "My Equipment", url: "/dashboard/owner/equipment", icon: Wrench },
-    { name: "My Equipment Rental", url: "/dashboard/owner/equipment-rental", icon: Boxes },
+    { name: "My Equipment Rental", url: "/dashboard/owner/equipment-rentals", icon: Boxes },
 
   ],
   admin: [

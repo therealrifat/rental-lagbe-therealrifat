@@ -68,7 +68,7 @@ const benefits = [
 
 const WhyChooseUs = () => {
   return (
-    <section className="w-full bg-muted/30 px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+    <section className="w-full bg-muted px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
       <motion.div
         variants={container}
         initial="hidden"

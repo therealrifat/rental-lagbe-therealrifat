@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist} from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/shared/Navbar";
+import Footer from "@/components/shared/footer";
 import { Toaster } from "@/components/ui/toast";
 
 const geistSans = Geist({
@@ -23,8 +24,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col bg-gray-100">
         <Navbar/>
-        {children}
-        
+        <main className="flex-1">{children}</main>
+        {/* <Footer /> */}
         <Toaster />
         </body>
     </html>

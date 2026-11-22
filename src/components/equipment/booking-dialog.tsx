@@ -53,7 +53,8 @@ const BookingDialog = ({
   rentaltype,
   availableQuantity,
   equipmentId,
-  ownerId
+  ownerId,
+  
 }: BookingDialogProps) => {
   const [open, setOpen] = useState(false);
   const [startDate, setStartDate] = useState("");

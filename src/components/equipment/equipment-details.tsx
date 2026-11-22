@@ -249,6 +249,7 @@ const isLogin =await getUserSessionServer()
                 availableQuantity={item.quantity}
                 equipmentId={item._id}
                 ownerId={item.ownerId}
+                
               />
             </CardFooter>
           </Card>

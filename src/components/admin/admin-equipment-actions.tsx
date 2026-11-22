@@ -68,7 +68,7 @@ const AdminEquipmentActions = ({
   };
 
   const handleDelete = async() => {
-    // TODO: add your delete logic here.
+
     
     const result = await deleteAdminEquipment(equipment._id)
 

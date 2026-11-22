@@ -22,3 +22,16 @@ export const adminStatusEquipment = async (updateStatus: { id: string; status: s
 }
 
 
+export const adminStatusBooking = async (updateStatus: { id: string; status: string }) => {
+  
+  console.log(updateStatus)
+
+  const res = await fetch(`${BASE_URL}/admin/booking/${updateStatus.id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status: updateStatus.status }),
+
+  })
+  return res.json()
+
+}

@@ -1,3 +1,4 @@
+import { AdminRentalRecord } from "@/data/dummy-admin-rentals";
 import { EquipmentRecord } from "@/types/equipment";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -68,5 +69,10 @@ export const getAdminAllEquipment = async (): Promise<EquipmentRecord[]> => {
   return res.json();
 
 
+};
+
+export const getAdminRentals = async (): Promise<AdminRentalRecord[]> => {
+  const respose = await fetch(`${BASE_URL}/admin/booking`)
+  return respose.json()
 };
 

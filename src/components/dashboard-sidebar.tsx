@@ -34,7 +34,7 @@ const menuItemsByRole: Record<UserRole, MenuItem[]> = {
     { name: "My Profile", url: "/dashboard/profile", icon: UserCog },
     { name: "All Users", url: "/dashboard/admin/users", icon: Users2Icon },
     { name: "All Equipments", url: "/dashboard/admin/all-equipment", icon: PackageCheck },
-    { name: "All Rentals", url: "/dashboard/admin/all-rental", icon: CalendarCheck },
+    { name: "All Rentals", url: "/dashboard/admin/all-rentals", icon: CalendarCheck },
 
   ],
 }

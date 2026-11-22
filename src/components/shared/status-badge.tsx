@@ -2,6 +2,8 @@ const statusStyles: Record<string, string> = {
   Pending: "bg-amber-500/10 text-amber-700 dark:text-amber-300",
   Approved: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
   Rejected: "bg-destructive/10 text-destructive",
+  Paid: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
+  Unpaid: "bg-amber-500/10 text-amber-700 dark:text-amber-300",
 };
 
 const StatusBadge = ({ status }: { status?: string }) => {

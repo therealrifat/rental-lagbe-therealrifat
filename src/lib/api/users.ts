@@ -1,3 +1,5 @@
+import { EquipmentRecord } from "@/types/equipment";
+
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const getMyEquipments = async (ownerId: string) => {
@@ -52,4 +54,19 @@ export const getAllUsers = async()=>{
   return res.json();
 }
 
+
+
+
+
+// admin api
+// -----------------------------------------
+
+
+export const getAdminAllEquipment = async (): Promise<EquipmentRecord[]> => {
+
+  const res = await fetch(`${BASE_URL}/admin/equipment`);
+  return res.json();
+
+
+};
 

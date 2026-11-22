@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { EquipmentRecord, Status } from "@/types/equipment";
-import { deleteAdminEquipment } from "@/lib/actions/admin";
+import { adminStatusEquipment, deleteAdminEquipment } from "@/lib/actions/admin";
 import { toast } from "../ui/toast";
 import { useRouter } from "next/navigation";
 
@@ -43,12 +43,21 @@ const AdminEquipmentActions = ({
 }: AdminEquipmentActionsProps) => {
   const [status, setStatus] = useState<Status>(equipment.status);
  const router = useRouter()
-  const handleStatusChange = (value: string | null) => {
+  const handleStatusChange = async (value: string | null) => {
     if (!isStatus(value)) return;
 
     setStatus(value);
     // TODO: add your database/route logic here, then call onStatusChange.
+    const body = {id: equipment._id, status:value}
+
+    const result  = await adminStatusEquipment(body)
+
+    if(result.modifiedCount > 0){
+      toast.add({description: "Status Update Successfull"})
+      router.refresh()
+    }
     
+
     onStatusChange?.(equipment, value);
   };
 

@@ -20,7 +20,7 @@ const menuItemsByRole: Record<UserRole, MenuItem[]> = {
   customer: [
     { name: "Profile", url: "/dashboard/profile", icon: UserCog },
     { name: "My Rentals", url: "/dashboard/customer/my-rentals", icon: CalendarCheck },
-    { name: "Favorites", url: "/dashboard/favorites", icon: BookHeart },
+    { name: "Favorites", url: "/dashboard/customer/favorites", icon: BookHeart },
 
   ],
   owner: [

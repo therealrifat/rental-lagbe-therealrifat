@@ -75,4 +75,10 @@ export const getAdminRentals = async (): Promise<AdminRentalRecord[]> => {
   const respose = await fetch(`${BASE_URL}/admin/booking`)
   return respose.json()
 };
+export const getFeatureSections = async () => {
+  const respose = await fetch(`${BASE_URL}/featured-equipment`)
+  return respose.json()
+};
+
+
 

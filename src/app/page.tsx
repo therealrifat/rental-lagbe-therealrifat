@@ -1,10 +1,13 @@
+import CategorySection from "@/components/shared/home/category";
 import Banner from "@/components/shared/home/banner";
-import Navbar from "@/components/shared/Navbar"
+import FeatureSection from "@/components/shared/home/featureSection";
 
 export default function Home() {
   return (
     <div>
-    < Banner/>
+      <Banner />
+      <CategorySection />
+      <FeatureSection/>
     </div>
   );
 }

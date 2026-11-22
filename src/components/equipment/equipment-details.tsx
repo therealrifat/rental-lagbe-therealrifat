@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 
 import BookingDialog from "@/components/equipment/booking-dialog";
+import FavoriteButton from "@/components/favorites/favorite-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Card,
@@ -19,6 +20,7 @@ import type { EquipmentRecord } from "@/types/equipment";
 import { getUserInfo } from "@/lib/api/users";
 import { redirect } from "next/navigation";
 import { getUserSessionServer } from "@/lib/core/session-server";
+import { isFavorite } from "@/lib/actions/favorites";
 
 const categoryLabels: Record<string, string> = {
   "construction-equipment": "Construction Equipment",
@@ -114,6 +116,8 @@ const isLogin =await getUserSessionServer()
     redirect("/login")
   }
 
+  const initialIsFavorite = await isFavorite(isLogin.user.id, item._id);
+
   const ownerData = await getUserInfo(item.ownerId)
 
  
@@ -145,6 +149,13 @@ const isLogin =await getUserSessionServer()
             {item.equipmentName || "Untitled equipment"}
           </h1>
           <StatusBadge status={item.status} />
+          <FavoriteButton
+            customerId={isLogin.user.id}
+            equipmentId={item._id}
+            equipmentName={item.equipmentName || "this equipment"}
+            initialIsFavorite={initialIsFavorite}
+            showLabel
+          />
         </div>
         <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
           <span>{formatValue(item.category, categoryLabels)}</span>

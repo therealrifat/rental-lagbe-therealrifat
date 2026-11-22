@@ -62,7 +62,12 @@ const resolveImageUrl = (image: unknown): string | null => {
 
 
 
-const EquipmentCard = ({ equipment }: { equipment: EquipmentRecord }) => {
+type EquipmentCardProps = {
+  equipment: EquipmentRecord;
+  detailsHref?: string;
+};
+
+const EquipmentCard = ({ equipment, detailsHref }: EquipmentCardProps) => {
   const [imageFailed, setImageFailed] = useState(false);
   const rawImageUrl = resolveImageUrl(equipment.image);
   const imageUrl = !rawImageUrl || imageFailed ? FALLBACK_IMAGE : rawImageUrl;
@@ -116,7 +121,7 @@ const EquipmentCard = ({ equipment }: { equipment: EquipmentRecord }) => {
 
       <CardFooter className="p-4">
         <Button
-          render={<Link href={`/equipment/${equipment._id}`} />}
+          render={<Link href={detailsHref ?? `/equipment/${equipment._id}`} />}
           variant="outline"
           className="w-full"
         >

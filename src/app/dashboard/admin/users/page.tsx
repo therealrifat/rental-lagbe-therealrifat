@@ -1,3 +1,4 @@
+"use client";
 import { UserCog } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -12,6 +13,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { UserRole } from "@/types/UserRole";
+import { getAllUsers } from "@/lib/api/users";
+import { useEffect, useState } from "react";
+import { UpdateUserRole } from "@/lib/actions/users";
+import { useRouter } from "next/navigation";
+import { toast } from "@/components/ui/toast";
 
 type AdminUser = {
   _id: string;
@@ -96,6 +102,7 @@ const dummyUsers: AdminUser[] = [
   },
 ];
 
+
 const roleOptions = [
   { label: "Customer", value: "customer" },
   { label: "Owner", value: "owner" },
@@ -145,31 +152,63 @@ const UserIdentity = ({ user }: { user: AdminUser }) => (
     </Avatar>
     <div className="min-w-0 space-y-0.5">
       <p className="truncate font-medium">{user.name}</p>
-      <p className="truncate text-xs text-muted-foreground">{user.phone || "—"}</p>
+      <p className="truncate text-xs text-muted-foreground">
+        {user.phone || "—"}
+      </p>
     </div>
   </div>
 );
+export type RoleSelectProps = {
+  userId: string;
+  role: UserRole;
+};
 
-const RoleSelect = ({ role }: { role: UserRole }) => (
-  <Select items={roleOptions} defaultValue={role}>
-    <SelectTrigger className="w-full">
-      <SelectValue />
-    </SelectTrigger>
-    <SelectContent>
-      <SelectGroup>
-        <SelectLabel>Change Role</SelectLabel>
-        {roleOptions.map((option) => (
-          <SelectItem key={option.value} value={option.value}>
-            {option.label}
-          </SelectItem>
-        ))}
-      </SelectGroup>
-    </SelectContent>
-  </Select>
-);
+const RoleSelect = ({ userId, role }: RoleSelectProps) => {
+  const router = useRouter()
+  const handleRoleChange = async (role: UserRole | null) => {
+    if (!role) return;
+
+    const userInfo = { userId, role } ;
+
+    const result = await UpdateUserRole(userInfo);
+
+    if(result.modifiedCount > 0){
+      router.refresh()
+      toast.add({
+        description: "Update User role Sucessfull "
+      })
+      return
+    }
+  };
+
+  return (
+    <Select items={roleOptions} value={role} onValueChange={handleRoleChange}>
+      <SelectTrigger className="w-full">
+        <SelectValue />
+      </SelectTrigger>
+
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>Change Role</SelectLabel>
+
+          {roleOptions.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  );
+};
 
 const ManageButton = () => (
-  <Button type="button" variant="outline" size="sm" className="w-full sm:w-auto">
+  <Button
+    type="button"
+    variant="outline"
+    size="sm"
+    className="w-full sm:w-auto"
+  >
     <UserCog className="size-4" />
     Manage Users
   </Button>
@@ -182,7 +221,18 @@ const EmptyState = () => (
 );
 
 const AllUsers = () => {
-  const users = dummyUsers;
+  const [users, setUsers] = useState<AdminUser[]>([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const data = await getAllUsers();
+      setUsers(data);
+    };
+
+    fetchUsers();
+  });
+
+  // const users = dummyUsers;
 
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
@@ -212,16 +262,20 @@ const AllUsers = () => {
                 <dl className="mt-4 grid gap-3 text-xs sm:text-sm">
                   <div>
                     <dt className="text-muted-foreground">Email</dt>
-                    <dd className="mt-0.5 break-all font-medium">{user.email}</dd>
+                    <dd className="mt-0.5 break-all font-medium">
+                      {user.email}
+                    </dd>
                   </div>
                   <div>
                     <dt className="text-muted-foreground">Registration Date</dt>
-                    <dd className="mt-0.5 font-medium">{formatDate(user.createdAt)}</dd>
+                    <dd className="mt-0.5 font-medium">
+                      {formatDate(user.createdAt)}
+                    </dd>
                   </div>
                   <div>
                     <dt className="text-muted-foreground">Change Role</dt>
                     <dd className="mt-1.5">
-                      <RoleSelect role={user.role} />
+                      <RoleSelect role={user.role} userId={user._id} />
                     </dd>
                   </div>
                 </dl>
@@ -238,16 +292,29 @@ const AllUsers = () => {
             <table className="w-full text-left text-sm">
               <thead className="bg-muted/50 text-xs uppercase tracking-wide text-muted-foreground">
                 <tr>
-                  <th scope="col" className="px-4 py-3 font-medium">Name</th>
-                  <th scope="col" className="px-4 py-3 font-medium">Email</th>
-                  <th scope="col" className="px-4 py-3 font-medium">Role</th>
-                  <th scope="col" className="px-4 py-3 font-medium">Registration Date</th>
-                  <th scope="col" className="px-4 py-3 font-medium">Actions</th>
+                  <th scope="col" className="px-4 py-3 font-medium">
+                    Name
+                  </th>
+                  <th scope="col" className="px-4 py-3 font-medium">
+                    Email
+                  </th>
+                  <th scope="col" className="px-4 py-3 font-medium">
+                    Role
+                  </th>
+                  <th scope="col" className="px-4 py-3 font-medium">
+                    Registration Date
+                  </th>
+                  <th scope="col" className="px-4 py-3 font-medium">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {users.map((user) => (
-                  <tr key={user._id} className="transition-colors hover:bg-muted/40">
+                  <tr
+                    key={user._id}
+                    className="transition-colors hover:bg-muted/40"
+                  >
                     <td className="px-4 py-3">
                       <UserIdentity user={user} />
                     </td>
@@ -259,7 +326,7 @@ const AllUsers = () => {
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
                         <div className="w-32">
-                          <RoleSelect role={user.role} />
+                          <RoleSelect role={user.role} userId={user._id} />
                         </div>
                         <ManageButton />
                       </div>

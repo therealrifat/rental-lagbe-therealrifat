@@ -45,3 +45,11 @@ export const getOwnerRental = async(ownerId: string)=>{
   const res = await fetch(`${BASE_URL}/owner/bookings/${ownerId}`);
   return res.json();
 }
+
+
+export const getAllUsers = async()=>{
+  const res = await fetch(`${BASE_URL}/users/`);
+  return res.json();
+}
+
+

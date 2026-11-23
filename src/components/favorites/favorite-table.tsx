@@ -68,10 +68,9 @@ const FavoriteTable = ({ favorites, customerId }: FavoriteTableProps) => {
   const [items, setItems] = useState(favorites);
 
   const handleRemove = async (favorite: FavoriteRecord) => {
-    // TODO: replace the API call inside removeFavorite with your own logic.
 
   
-    await removeFavorite(customerId, favorite.equipmentId);
+    await removeFavorite(customerId, favorite._id);
     setItems((current) => current.filter((item) => item._id !== favorite._id));
   };
 

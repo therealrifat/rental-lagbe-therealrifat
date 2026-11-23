@@ -1,17 +1,18 @@
-import {
-  dummyAdminAnalytics,
-  type AdminAnalyticsSnapshot,
-} from "@/data/dummy-admin-analytics";
-import {
-  dummyOwnerAnalytics,
-  type OwnerAnalyticsSnapshot,
-} from "@/data/dummy-owner-analytics";
+// import {
+//   dummyAdminAnalytics,
+//   type AdminAnalyticsSnapshot,
+// } from "@/data/dummy-admin-analytics";
+// import {
+//   dummyOwnerAnalytics,
+//   type OwnerAnalyticsSnapshot,
+// } from "@/data/dummy-owner-analytics";
 import { authFetch, getUserSessionServer } from "../core/session-server";
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-const userSession = await getUserSessionServer();
 
-export const getAdminAnalytics = async (): Promise<AdminAnalyticsSnapshot> => {
+
+export const getAdminAnalytics = async () => {
+  const userSession = await getUserSessionServer();
   const adminId = userSession?.user.id;
   const api = `${BASE_URL}/admin/analytics/${adminId}`;
   console.log(api)
@@ -22,7 +23,8 @@ export const getAdminAnalytics = async (): Promise<AdminAnalyticsSnapshot> => {
   // return dummyAdminAnalytics;
 };
 
-export const getOwnerAnalytics = async (): Promise<OwnerAnalyticsSnapshot> => {
+export const getOwnerAnalytics = async () => {
+  const userSession = await getUserSessionServer();
   const ownerId = userSession?.user.id;
 
   const api = `${BASE_URL}/owner/analytics/${ownerId}`;

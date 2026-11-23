@@ -61,10 +61,12 @@ const OwnerDashboard = async () => {
   ];
 
   const chart: AnalyticsChartConfig = {
-    data: stats.monthlyBookings.map(({ month, bookings }) => ({
+    data: stats.monthlyBookings.map(
+      ({ month, bookings }: { month: string; bookings: number }) => ({
       month,
       bookings,
-    })),
+      }),
+    ),
     xKey: "month",
     series: [
       { key: "bookings", label: "Bookings", color: "#10b981" },

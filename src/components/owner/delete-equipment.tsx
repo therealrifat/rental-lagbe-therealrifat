@@ -27,6 +27,8 @@ const DeleteEquipment = ({
   const handleDelete = async () => {
     console.log("delete");
     const result = await deleteMyEquipment(equipment._id);
+
+    console.log(result)
     if (result.deletedCount > 0) {
       toast.add({
         description: "Delete Equipments Sucessfull",

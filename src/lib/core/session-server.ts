@@ -35,3 +35,21 @@ export const authFetch = async (api: string) => {
   });
   return res;
 };
+
+export const protectedMutation = async (
+  api: string,
+  method: string,
+  data?: unknown,
+) => {
+  const token = await getToken();
+  const res = await fetch(api, {
+    method: method,
+    headers: {
+      "content-type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+    body: data ? JSON.stringify(data) : null,
+  });
+
+  return res;
+};

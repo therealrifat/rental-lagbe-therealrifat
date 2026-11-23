@@ -1,5 +1,6 @@
-
+'use server'
 import { Equipment } from "@/types/equipment";
+import { protectedMutation } from "../core/session-server";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -16,7 +17,9 @@ export const addedEquipment = async ( data:Equipment ) => {
 
 
 export const deleteMyEquipment = async(id: string)=>{
-  const res = await fetch(`${BASE_URL}/owner/equipment/${id}`,{method: "DELETE"})
+
+  const api = `${BASE_URL}/owner/equipment/${id}`
+  const res = await protectedMutation(api, "DELETE")
   return res.json()
 }
 

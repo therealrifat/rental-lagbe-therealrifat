@@ -4,6 +4,7 @@ import FeatureSection from "@/components/shared/home/featureSection";
 import WhyChooseUs from "@/components/shared/home/why-choose-us";
 import TrustedEquipment from "@/components/shared/home/trusted-equipment";
 import HowItWork from "@/components/shared/home/how-it-work";
+import ReviewSections from "@/components/shared/home/reviews-sections";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <HowItWork />
       <WhyChooseUs />
       <TrustedEquipment />
+      <ReviewSections />
     </div>
   );
 }

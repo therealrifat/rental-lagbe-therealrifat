@@ -20,7 +20,7 @@ import type { EquipmentRecord } from "@/types/equipment";
 import { getUserInfo } from "@/lib/api/users";
 import { redirect } from "next/navigation";
 import { getUserSessionServer } from "@/lib/core/session-server";
-import { isFavorite } from "@/lib/actions/favorites";
+// import { isFavorite } from "@/lib/actions/favorites";
 
 const categoryLabels: Record<string, string> = {
   "construction-equipment": "Construction Equipment",
@@ -116,7 +116,7 @@ const isLogin =await getUserSessionServer()
     redirect("/login")
   }
 
-  const initialIsFavorite = await isFavorite(isLogin.user.id, item._id);
+  // const initialIsFavorite = await isFavorite(isLogin.user.id, item._id);
 
   const ownerData = await getUserInfo(item.ownerId)
 
@@ -153,7 +153,7 @@ const isLogin =await getUserSessionServer()
             customerId={isLogin.user.id}
             equipmentId={item._id}
             equipmentName={item.equipmentName || "this equipment"}
-            initialIsFavorite={initialIsFavorite}
+            // initialIsFavorite={initialIsFavorite}
             showLabel
           />
         </div>

@@ -69,6 +69,8 @@ const FavoriteTable = ({ favorites, customerId }: FavoriteTableProps) => {
 
   const handleRemove = async (favorite: FavoriteRecord) => {
     // TODO: replace the API call inside removeFavorite with your own logic.
+
+  
     await removeFavorite(customerId, favorite.equipmentId);
     setItems((current) => current.filter((item) => item._id !== favorite._id));
   };
@@ -109,7 +111,8 @@ const FavoriteTable = ({ favorites, customerId }: FavoriteTableProps) => {
           </thead>
           <tbody className="divide-y divide-border">
             {items.map((favorite) => {
-              const equipment = favorite.equipment;
+              const equipment = favorite;
+              console.log("eeee", favorite);
 
               return (
                 <tr
@@ -120,7 +123,10 @@ const FavoriteTable = ({ favorites, customerId }: FavoriteTableProps) => {
                     <div className="flex items-center gap-3">
                       <div className="relative size-10 shrink-0 overflow-hidden rounded-lg bg-muted ring-1 ring-border">
                         <Image
-                          src={resolveImageUrl(equipment.image)}
+                          src={resolveImageUrl(
+                            equipment.image ||
+                              "https://i.ibb.co/5g3jm1wm/images.jpg",
+                          )}
                           alt={equipment.equipmentName || "Equipment"}
                           fill
                           unoptimized
@@ -129,7 +135,7 @@ const FavoriteTable = ({ favorites, customerId }: FavoriteTableProps) => {
                         />
                       </div>
                       <Link
-                        href={`/equipment/${equipment._id}`}
+                        href={`/equipment/${equipment.equipmentId}`}
                         className="font-medium hover:underline"
                       >
                         {equipment.equipmentName || "Untitled equipment"}
@@ -137,13 +143,13 @@ const FavoriteTable = ({ favorites, customerId }: FavoriteTableProps) => {
                     </div>
                   </td>
                   <td className="px-4 py-3">
-                    {formatLabel(equipment.category)}
+                    {formatLabel(equipment.category || "-")}
                   </td>
-                  <td className="px-4 py-3">
-                    {equipment.location || "—"}
-                  </td>
+                  <td className="px-4 py-3">{equipment.location || "—"}</td>
                   <td className="px-4 py-3 font-medium">{equipment.price}</td>
-                  <td className="px-4 py-3">{formatDate(favorite.createdAt)}</td>
+                  <td className="px-4 py-3">
+                    {formatDate(favorite.createdAt)}
+                  </td>
                   <td className="px-4 py-3">
                     <Button
                       type="button"

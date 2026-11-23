@@ -35,7 +35,7 @@ const FavoriteButton = ({
     if(result.message){
       toast.add({description: result.message})
     }
-    console.log(result)
+
     setIsFavorite(true);
   };
 

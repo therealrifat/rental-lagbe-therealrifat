@@ -58,6 +58,7 @@ const MyEquipments = async () => {
   }
 
   const result = await getMyEquipments(ownerId);
+  
   const equipments: EquipmentRecord[] = Array.isArray(result) ? result : [];
 
   return (

@@ -1,10 +1,13 @@
+'use server'
 import { AdminRentalRecord } from "@/data/dummy-admin-rentals";
 import { EquipmentRecord } from "@/types/equipment";
+import { authFetch } from "../core/session-server";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const getMyEquipments = async (ownerId: string) => {
-  const res = await fetch(`${BASE_URL}/owner/equipment/${ownerId}`);
+  const api = `${BASE_URL}/owner/equipment/${ownerId}`;
+  const res = await authFetch(api);
   return res.json();
 };
 
@@ -24,61 +27,39 @@ export const getMyRentals = async (userId: string) => {
   return res.json();
 };
 
-
-export const getAllEquipments = async (query="") => {
-
+export const getAllEquipments = async (query = "") => {
   const res = await fetch(`${BASE_URL}/equipment?${query}`);
   return res.json();
-
-
 };
-
-
 
 export const getBookingInfo = async (bookId: string) => {
   const res = await fetch(`${BASE_URL}/booking/${bookId}`);
   return res.json();
 };
 
-
-
-
-
-export const getOwnerRental = async(ownerId: string)=>{
+export const getOwnerRental = async (ownerId: string) => {
   const res = await fetch(`${BASE_URL}/owner/bookings/${ownerId}`);
   return res.json();
-}
+};
 
-
-export const getAllUsers = async()=>{
+export const getAllUsers = async () => {
   const res = await fetch(`${BASE_URL}/users/`);
   return res.json();
-}
-
-
-
-
+};
 
 // admin api
 // -----------------------------------------
 
-
 export const getAdminAllEquipment = async (): Promise<EquipmentRecord[]> => {
-
   const res = await fetch(`${BASE_URL}/admin/equipment`);
   return res.json();
-
-
 };
 
 export const getAdminRentals = async (): Promise<AdminRentalRecord[]> => {
-  const respose = await fetch(`${BASE_URL}/admin/booking`)
-  return respose.json()
+  const respose = await fetch(`${BASE_URL}/admin/booking`);
+  return respose.json();
 };
 export const getFeatureSections = async () => {
-  const respose = await fetch(`${BASE_URL}/featured-equipment`)
-  return respose.json()
+  const respose = await fetch(`${BASE_URL}/featured-equipment`);
+  return respose.json();
 };
-
-
-

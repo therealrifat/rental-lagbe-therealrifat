@@ -47,7 +47,8 @@ export const getOwnerRental = async (ownerId: string) => {
 };
 
 export const getAllUsers = async () => {
-  const res = await fetch(`${BASE_URL}/users/`);
+  const api = `${BASE_URL}/users/`
+  const res = await authFetch(api);
   return res.json();
 };
 

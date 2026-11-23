@@ -69,8 +69,11 @@ const FavoriteTable = ({ favorites, customerId }: FavoriteTableProps) => {
 
   const handleRemove = async (favorite: FavoriteRecord) => {
 
+
   
-    await removeFavorite(customerId, favorite._id);
+    const result = await removeFavorite(customerId, favorite._id);
+    console.log(result)
+
     setItems((current) => current.filter((item) => item._id !== favorite._id));
   };
 

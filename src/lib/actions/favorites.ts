@@ -1,7 +1,4 @@
-import {
-  dummyFavorites,
-  type FavoriteRecord,
-} from "@/data/dummy-favorites";
+import { dummyFavorites, type FavoriteRecord } from "@/data/dummy-favorites";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -22,19 +19,15 @@ export const isFavorite = async (
   return dummyFavorites.some((item) => item.equipmentId === equipmentId);
 };
 
-export const addFavorite = async (
-  customerId: string,
-  equipmentId: string,
-): Promise<void> => {
+
+export const addFavorite = async (customerId: string, equipmentId: string) => {
   const response = await fetch(`${BASE_URL}/customers/favorites`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ customerId, equipmentId }),
   });
 
-  if (!response.ok) {
-    throw new Error(`Failed to add favorite: ${response.status}`);
-  }
+  return response.json();
 };
 
 export const removeFavorite = async (

@@ -5,6 +5,7 @@ import { Heart } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { addFavorite } from "@/lib/actions/favorites";
+import { toast } from "../ui/toast";
 
 type FavoriteButtonProps = {
   customerId: string;
@@ -28,10 +29,13 @@ const FavoriteButton = ({
   const handleAdd = async () => {
     if (isFavorite) return;
 
-    // TODO: replace the API call inside addFavorite with your own logic.
 
-    
-    await addFavorite(customerId, equipmentId);
+    const result = await addFavorite(customerId, equipmentId);
+
+    if(result.message){
+      toast.add({description: result.message})
+    }
+    console.log(result)
     setIsFavorite(true);
   };
 

@@ -111,7 +111,7 @@ const FavoriteTable = ({ favorites, customerId }: FavoriteTableProps) => {
           <tbody className="divide-y divide-border">
             {items.map((favorite) => {
               const equipment = favorite;
-              console.log("eeee", favorite);
+
 
               return (
                 <tr

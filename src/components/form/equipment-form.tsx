@@ -35,6 +35,7 @@ import { Equipment } from "@/types/equipment";
 import { Spinner } from "../ui/spinner";
 import { toast } from "../ui/toast";
 import ImageUpload from "../profile/image-upload";
+import { useRouter } from "next/navigation";
 
 const items = [
   { label: "Construction Equipment", value: "construction-equipment" },
@@ -61,6 +62,7 @@ const conditionItems = [
 ];
 
 const EquipmentForm = () => {
+  const router = useRouter()
   const [isLoading, setLoading] = useState(false);
   const [category, setCategory] = useState<string | null>(
     "construction-equipment",
@@ -93,11 +95,14 @@ const EquipmentForm = () => {
 
     const result = await addedEquipment(equipment);
 
+
+
+
     if (!result.insertedId) {
       toast.add({
         description: "Somthing Went Wrong",
       });
-      console.log(result);
+
       setLoading(false);
       return;
     }
@@ -106,8 +111,9 @@ const EquipmentForm = () => {
       toast.add({
         description: "Add Equipment Sucessfull",
       });
-      console.log(result);
+
       setLoading(false);
+      router.push('/dashboard/owner/equipment')
       return;
     }
   };

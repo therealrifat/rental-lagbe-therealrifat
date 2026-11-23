@@ -5,6 +5,9 @@ import WhyChooseUs from "@/components/shared/home/why-choose-us";
 import TrustedEquipment from "@/components/shared/home/trusted-equipment";
 import HowItWork from "@/components/shared/home/how-it-work";
 import ReviewSections from "@/components/shared/home/reviews-sections";
+import Footer from './../components/shared/footer';
+
+
 
 export default function Home() {
   return (
@@ -16,6 +19,8 @@ export default function Home() {
       <WhyChooseUs />
       <TrustedEquipment />
       <ReviewSections />
+      <Footer/>
+     
     </div>
   );
 }

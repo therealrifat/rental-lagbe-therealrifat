@@ -19,7 +19,7 @@ const role = (session?.user as { role?: string } | undefined)?.role || "customer
         </div>
       ) : session?.user ? (
         <div className="flex items-center gap-2.5">
-          <Link href={`/dashboard/profile`} className="border rounded-lg px-5">
+          <Link href={role ==="customer"? (`/dashboard/${"profile"}`):(`/dashboard/${role}`)} className="border rounded-lg px-5">
             Dashboard
           </Link>
           <LogOut />
